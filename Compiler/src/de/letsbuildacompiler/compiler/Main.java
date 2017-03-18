@@ -29,7 +29,7 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		ANTLRInputStream input = new ANTLRFileStream("code.demo");
+		ANTLRInputStream input = new ANTLRFileStream("code.sko");
 //		System.out.println(compile(input)); input = new ANTLRFileStream("code.demo");
 		System.out.println(run(input));
 	}
