@@ -61,14 +61,18 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	private String lookingAtStorageCommand = "";
 	private String lookingAtLoadCommand = "";
 	private int lookingAtObjectId = 0;
+	private String header = "";
+	private String typeHeader = "";
 
-	public MyVisitor(FunctionList definedFunctions, Map<String, StorageModel> statics, LinkedHashMap<String, TypeModel> types) {
+	public MyVisitor(FunctionList definedFunctions, Map<String, StorageModel> statics, LinkedHashMap<String, TypeModel> types, String header) {
 		if (definedFunctions == null || statics == null || types == null) {
 			throw new NullPointerException("defined functions/statics/types");
 		} else {
 			this.definedFunctions = definedFunctions;
 			this.statics = statics;
 			this.types = types;
+			this.header = header;
+			this.typeHeader = "Type" + header;
 		}
 	}
 
@@ -200,8 +204,8 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			int objectId = statics.get(ctx.typeName.getText()).getTypeAdress();
 			int i = (new ArrayList<TypeModel>(types.values())).get(objectId).getAddress(ctx.varName.getText());
 			String type = (new ArrayList<TypeModel>(types.values())).get(objectId).getVars().get(i).getJvmType();
-			String result = "getstatic HelloWorld/n" + storageId + " LExtraClassFile" + objectId + ";\n" + 
-					"getfield ExtraClassFile" + statics.get(ctx.typeName.getText()).getTypeAdress() + "/tn" + i + " " + type + "\n";
+			String result = "getstatic " + header + "/n" + storageId + " L" + typeHeader + objectId + ";\n" + 
+					"getfield " + typeHeader + statics.get(ctx.typeName.getText()).getTypeAdress() + "/tn" + i + " " + type + "\n";
 			jvmStack.push(DataType.OBJREF);
 			jvmStack.pop();
 			jvmStack.push((new ArrayList<TypeModel>(types.values())).get(objectId).getVars().get(i));
@@ -213,7 +217,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			String type = (new ArrayList<TypeModel>(types.values())).get(objectId).getVars().get(i).getJvmType();
 			String loadCommand = "aload " + storageId;
 			String result = loadCommand;
-			result += "\n" + "getfield ExtraClassFile" + variables.get(ctx.typeName.getText()).getTypeAdress() + "/tn" + i + " " + type + "\n";
+			result += "\n" + "getfield " + typeHeader + variables.get(ctx.typeName.getText()).getTypeAdress() + "/tn" + i + " " + type + "\n";
 			jvmStack.push(DataType.OBJREF);
 			jvmStack.pop();
 			jvmStack.push((new ArrayList<TypeModel>(types.values())).get(objectId).getVars().get(i));
@@ -228,8 +232,8 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			int objectId = statics.get(ctx.typeName.getText()).getTypeAdress();
 			int i = (new ArrayList<TypeModel>(types.values())).get(objectId).getAddress(ctx.varName.getText());
 			String type = (new ArrayList<TypeModel>(types.values())).get(objectId).getVars().get(i).getJvmType();
-			String result = "getstatic HelloWorld/n" + storageId + " LExtraClassFile" + objectId + ";\n" + 
-					"getfield ExtraClassFile" + statics.get(ctx.typeName.getText()).getTypeAdress() + "/tn" + i + " " + type + "\n";
+			String result = "getstatic " + header + "/n" + storageId + " L" + typeHeader + objectId + ";\n" + 
+					"getfield " + typeHeader + statics.get(ctx.typeName.getText()).getTypeAdress() + "/tn" + i + " " + type + "\n";
 			jvmStack.push(DataType.OBJREF);
 			jvmStack.pop();
 			jvmStack.push((new ArrayList<TypeModel>(types.values())).get(objectId).getVars().get(i));
@@ -241,7 +245,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			String type = (new ArrayList<TypeModel>(types.values())).get(objectId).getVars().get(i).getJvmType();
 			String loadCommand = "aload " + storageId;
 			String result = loadCommand;
-			result += "\n" + "getfield ExtraClassFile" + variables.get(ctx.typeName.getText()).getTypeAdress() + "/tn" + i + " " + type + "\n";
+			result += "\n" + "getfield " + typeHeader + variables.get(ctx.typeName.getText()).getTypeAdress() + "/tn" + i + " " + type + "\n";
 			jvmStack.push(DataType.OBJREF);
 			jvmStack.pop();
 			jvmStack.push((new ArrayList<TypeModel>(types.values())).get(objectId).getVars().get(i));
@@ -272,7 +276,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 				break;
 			}
 			jvmStack.push(DataType.INT);
-			String result = "getstatic HelloWorld/n" + arrayIndex + " [" + primitive.getJvmType() + '\n' + visit(ctx.index) + '\n' + loadCommand;
+			String result = "getstatic " + header + "/n" + arrayIndex + " [" + primitive.getJvmType() + '\n' + visit(ctx.index) + '\n' + loadCommand;
 			jvmStack.pop();
 			jvmStack.pop();
 			jvmStack.push(primitive);
@@ -320,10 +324,10 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		if(main) {
 			String instructions = "";
 			StorageModel model = statics.get(ctx.varName.getText());
-			lookingAtStorageCommand = "putstatic HelloWorld/n" + model.getStorageId();
-			lookingAtLoadCommand = "getstatic HelloWorld/n" + model.getStorageId();
+			lookingAtStorageCommand = "putstatic " + header + "/n" + model.getStorageId();
+			lookingAtLoadCommand = "getstatic " + header + "/n" + model.getStorageId();
 			DataType type = DataType.INT;
-			String storeCommand = "putstatic HelloWorld/n";
+			String storeCommand = "putstatic " + header + "/n";
 			switch (ctx.type.getText()) {
 			case "int[]":
 				type = DataType.IARRAY;
@@ -344,7 +348,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			}
 			String typeDec;
 			if(type == DataType.OBJREF) {
-				typeDec = "LExtraClassFile" + types.get(ctx.type.getText()).getId() + ';';
+				typeDec = "L" + typeHeader + types.get(ctx.type.getText()).getId() + ';';
 				variables.put(ctx.varName.getText(), new StorageModel(variables.size(), type, types.get(ctx.type.getText()).getId()));
 			} else {
 				typeDec = type.getJvmType();
@@ -444,8 +448,8 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		if (main || statics.containsKey(ctx.varName.getText())) {
 			objId = statics.get(ctx.varName.getText()).getTypeAdress();
 			model = requireStaticStorageModel(ctx.varName);
-			lookingAtStorageCommand = "putstatic HelloWorld/n" + model.getStorageId();
-			lookingAtLoadCommand = "getstatic HelloWorld/n" + model.getStorageId();
+			lookingAtStorageCommand = "putstatic " + header + "/n" + model.getStorageId();
+			lookingAtLoadCommand = "getstatic " + header + "/n" + model.getStorageId();
 		} else {
 			objId = variables.get(ctx.varName).getTypeAdress();
 			model = requireStorageModel(ctx.varName);
@@ -456,16 +460,14 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 				lookingAtStorageCommand = "istore " + model.getStorageId();
 			}
 		}
-		String get = "getstatic HelloWorld/n0 LExtraClassFile0;\n";
-		get = lookingAtLoadCommand;
+		String get = lookingAtLoadCommand;
 		if (main) {
-			get +=  " LExtraClassFile" + objId + ";";
+			get +=  " L" + typeHeader + objId + ";";
 		}
 		get += '\n';
 		String expression = visit(ctx.expr) + '\n';
-		String put = "putfield ExtraClassFile0/tn0 Ljava/lang/String;\n";
 		int typeVarIndex =(new ArrayList<TypeModel>(types.values())).get(objId).getAddress(ctx.typeVarName.getText());
-		put = "putfield ExtraClassFile" + objId +
+		String put = "putfield " + typeHeader + objId +
 				"/tn" + typeVarIndex +
 				" " + (new ArrayList<TypeModel>(types.values())).get(objId).getVars().get(typeVarIndex).getJvmType() + "\n";
 		String result = get + expression + put;
@@ -495,7 +497,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 				break;
 			}
 			jvmStack.push(DataType.INT);
-			String result = "getstatic HelloWorld/n" + arrayIndex + " [" + primitive.getJvmType() + '\n' + visit(ctx.index) + '\n' + loadCommand;
+			String result = "getstatic " + header + "/n" + arrayIndex + " [" + primitive.getJvmType() + '\n' + visit(ctx.index) + '\n' + loadCommand;
 			jvmStack.pop();
 			jvmStack.pop();
 			jvmStack.push(primitive);
@@ -534,7 +536,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 				model = requireStaticStorageModel(ctx.varName);
 			}
 			jvmStack.push(model.getType());
-			return "getstatic HelloWorld/n" + model.getStorageId() + " " + model.getType().getJvmType();
+			return "getstatic " + header + "/n" + model.getStorageId() + " " + model.getType().getJvmType();
 		} else {
 			StorageModel model = requireStorageModel(ctx.varName);
 			jvmStack.push(model.getType());
@@ -569,27 +571,27 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 				} else {
 					model = requireStaticStorageModel(ctx.varName);
 				}
-				lookingAtStorageCommand = "putstatic HelloWorld/n" + model.getStorageId();
-				lookingAtLoadCommand = "getstatic HelloWorld/n" + model.getStorageId();
+				lookingAtStorageCommand = "putstatic " + header + "/n" + model.getStorageId();
+				lookingAtLoadCommand = "getstatic " + header + "/n" + model.getStorageId();
 				String instructions = visit(ctx.expr) + '\n';
 				String targetIndex = Integer.toString(model.getStorageId());
 				String result = "";
 
 				switch (model.getType()) {
 				case INT:
-					result = instructions + "putstatic HelloWorld/n" + targetIndex + " I\n";
+					result = instructions + "putstatic " + header + "/n" + targetIndex + " I\n";
 					jvmStack.pop();
 					break;
 				case STRING:
-					result = instructions + "putstatic HelloWorld/n" + targetIndex + " Ljava/lang/String;\n";
+					result = instructions + "putstatic " + header + "/n" + targetIndex + " Ljava/lang/String;\n";
 					jvmStack.pop();
 					break;
 				case IARRAY:
 					if(ctx.index == null) {
-						result = visit(ctx.expr) + "\n" + "putstatic HelloWorld/n" + requireVariableIndex(ctx.varName) + " " + DataType.IARRAY.getJvmType();
+						result = visit(ctx.expr) + "\n" + "putstatic " + header + "/n" + requireVariableIndex(ctx.varName) + " " + DataType.IARRAY.getJvmType();
 					} else {
 						String index = visit(ctx.index) + '\n';
-						result = "getstatic HelloWorld/n" + targetIndex + " [I\n" + index + instructions + "iastore\n";
+						result = "getstatic " + header + "/n" + targetIndex + " [I\n" + index + instructions + "iastore\n";
 						jvmStack.push(DataType.INT);
 						jvmStack.pop();
 						jvmStack.pop();
@@ -597,10 +599,10 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 					break;
 				case SARRAY:
 					if(ctx.index == null) {
-						result = visit(ctx.expr) + "\n" + "putstatic HelloWorld/n" + requireVariableIndex(ctx.varName) + " " + DataType.SARRAY.getJvmType();
+						result = visit(ctx.expr) + "\n" + "putstatic " + header + "/n" + requireVariableIndex(ctx.varName) + " " + DataType.SARRAY.getJvmType();
 					} else {
 						String index = visit(ctx.index) + '\n';
-						result = "getstatic HelloWorld/n" + targetIndex + " [Ljava/lang/String;\n" + index + instructions + "aastore\n";
+						result = "getstatic " + header + "/n" + targetIndex + " [Ljava/lang/String;\n" + index + instructions + "aastore\n";
 						jvmStack.push(DataType.INT);
 						jvmStack.pop();
 						jvmStack.pop();
@@ -704,7 +706,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 				model = requireStaticStorageModel(ctx.varName);
 			}
 			jvmStack.push(model.getType());
-			return "getstatic HelloWorld/n" + model.getStorageId() + " " + model.getType().getJvmType();
+			return "getstatic " + header + "/n" + model.getStorageId() + " " + model.getType().getJvmType();
 		} else {
 			StorageModel model = requireStorageModel(ctx.varName);
 			jvmStack.push(model.getType());
@@ -752,12 +754,12 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		} else {
 			int objId = types.get(ctx.ident.getText()).getId();
 			lookingAtObjectId = objId;
-			String result = "new ExtraClassFile" + objId + "\n"
+			String result = "new " + typeHeader + objId + "\n"
 					+ "dup\n"
-					+ "invokespecial ExtraClassFile" + objId + "/<init>()V\n"
+					+ "invokespecial " + typeHeader + objId + "/<init>()V\n"
 					+ lookingAtStorageCommand;
 			if(main) {
-				result +=  " " + "LExtraClassFile" + objId + ';';
+				result +=  " " + "L" + typeHeader + objId + ';';
 			}
 			result += "\n";
 			result += visit(ctx.arguments);
@@ -773,12 +775,12 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			String expression = visit(ctx.assignments.get(i)) + '\n';
 			result += lookingAtLoadCommand;
 			if (main) {
-				result += " " + "LExtraClassFile" + lookingAtObjectId + ";";
+				result += " " + "L" + typeHeader + lookingAtObjectId + ";";
 			}
 			result += '\n';
 			result += expression;
 			String type = (new ArrayList<TypeModel>(types.values())).get(lookingAtObjectId).getVars().get(i).getJvmType();
-			result += "putfield ExtraClassFile" + lookingAtObjectId + "/tn" + i + " " + type + '\n';
+			result += "putfield " + typeHeader + lookingAtObjectId + "/tn" + i + " " + type + '\n';
 		}
 		return result;
 	}
@@ -842,7 +844,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			if (argumentsInstructions != null) {
 				instructions += argumentsInstructions + '\n';
 			}
-			instructions += "invokestatic HelloWorld/" + ctx.funcName.getText() + "(";
+			instructions += "invokestatic " + header + "/" + ctx.funcName.getText() + "(";
 			for (DataType paramType : params) {
 				instructions += paramType.getJvmType();
 			}
@@ -901,7 +903,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			i++;
 		}
 		int index = types.get(ctx.typeName.getText()).getId();
-		return ".class ExtraClassFile" + index + '\n'
+		return ".class " + typeHeader + index + '\n'
 				+ ".super java/lang/Object\n"
 				+ "\n"
 				+ vars
@@ -933,7 +935,9 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			}
 		}
 		
-		return staticVars + '\n' + functions + "\n" + ".method public static main([Ljava/lang/String;)V\n"
+		return ".class public " + header + "\n" + 
+				".super java/lang/Object\n" + 
+				"\n" + staticVars + '\n' + functions + "\n" + ".method public static main([Ljava/lang/String;)V\n"
 				+ ".limit stack 100\n" + ".limit locals 100\n" + "\n" + mainCode + "\n" + "return\n" + "\n"
 				+ ".end method"
 				+ extraClasses;

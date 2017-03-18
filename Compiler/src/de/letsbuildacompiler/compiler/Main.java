@@ -22,6 +22,7 @@ import jasmin.ClassFile;
 public class Main {
 
 	private static Path tempDir;
+	private static String programName = "code";
 
 	/**
 	 * compiles and runs the code written in the code.demo file. creates a temporary file in temps, which it deletes afterwards.
@@ -29,8 +30,8 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		ANTLRInputStream input = new ANTLRFileStream("code.sko");
-//		System.out.println(compile(input)); input = new ANTLRFileStream("code.demo");
+		ANTLRInputStream input = new ANTLRFileStream(programName + ".sko");
+		System.out.println(compile(input)); input = new ANTLRFileStream(programName + ".sko");
 		System.out.println(run(input));
 	}
 	
@@ -49,7 +50,7 @@ public class Main {
 			FunctionList definedFunctions = FunctionDefinitionFinder.findFunctions(tree);
 			LinkedHashMap<String, TypeModel> types = FunctionDefinitionFinder.findTypes(tree);
 			Map<String, StorageModel> statics = FunctionDefinitionFinder.findStatics(tree, types);
-			return createJasminFile(new MyVisitor(definedFunctions, statics, types).visit(tree));
+			return createJasminFile(new MyVisitor(definedFunctions, statics, types, "S" + programName).visit(tree));
 		} else {
 			return "could not find any code :/";
 		}
@@ -62,10 +63,7 @@ public class Main {
 	 */
 	private static String createJasminFile(String instructions) {
 		
-		return ".class public HelloWorld\n" + 
-				".super java/lang/Object\n" + 
-				"\n" + 
-				instructions;
+		return instructions;
 
 	}
 	
@@ -111,7 +109,8 @@ public class Main {
 	 * @throws IOException
 	 */
 	public static void createTempDir() throws IOException {
-		tempDir = Files.createTempDirectory("compilerText");
+		tempDir = Files.createTempDirectory(programName);
+		tempDir.toFile().deleteOnExit();
 	}
 	
 	/**
@@ -119,7 +118,7 @@ public class Main {
 	 */
 	public static void deleteTempDir() {
 		deleteRecursive(tempDir.toFile());
-		tempDir.toFile().deleteOnExit();
+		tempDir.toFile().delete();
 	}
 	
 	private static void deleteRecursive(File file) {
