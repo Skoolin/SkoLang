@@ -1,0 +1,17 @@
+package de.letsbuildacompiler.exceptions;
+
+import org.antlr.v4.runtime.Token;
+
+public class UndefinedFunctionException extends CompileException {
+	private String functionName;
+	
+	public UndefinedFunctionException(Token token) {
+		super(token);
+		functionName = token.getText();
+	}
+	
+	@Override
+	public String getMessage() {
+		return line + ":" +column + " undeclared function <" + varName + ">";
+	}
+}

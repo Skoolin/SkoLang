@@ -1,0 +1,13 @@
+string stringRepeat(string string, int number) {
+	int i = 0;
+	String result = "";
+	
+	while (i < number) {
+		result = append(result, string);
+		i = i + 1;
+	}
+	
+	return result;
+}
+
+print(stringRepeat("test", 5);

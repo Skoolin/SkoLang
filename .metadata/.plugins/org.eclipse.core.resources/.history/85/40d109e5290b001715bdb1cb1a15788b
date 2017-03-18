@@ -1,0 +1,21 @@
+package de.letsbuildacompiler.compiler;
+
+import java.util.List;
+
+public class TypeModel {
+	private int id;
+	private List<DataType> vars;
+	
+	public TypeModel(int id, List<DataType> vars) {
+		super();
+		this.id = id;
+		this.vars = vars;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public List<DataType> getVars() {
+		return vars;
+	}
+}

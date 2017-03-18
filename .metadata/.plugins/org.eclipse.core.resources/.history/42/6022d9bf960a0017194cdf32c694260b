@@ -1,0 +1,3 @@
+int[] test;
+test[1] = 5;
+print(test[1]);

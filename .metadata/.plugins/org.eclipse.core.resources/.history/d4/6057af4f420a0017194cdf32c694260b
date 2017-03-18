@@ -1,0 +1,5 @@
+package de.letsbuildacompiler.compiler;
+
+public class FunctionDefinition {
+
+}

@@ -1,0 +1,8 @@
+package de.letsbuildacompiler.compiler;
+
+import java.util.List;
+
+public class TypeModel {
+	private int id;
+	private List<DataType> vars;
+}

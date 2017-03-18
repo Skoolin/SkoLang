@@ -1,0 +1,5 @@
+type huhu {
+	int i;
+}
+
+huhu first = new huhu(5,);

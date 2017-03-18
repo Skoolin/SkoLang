@@ -1,0 +1,139 @@
+package de.letsbuildacompiler.compiler;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Map;
+import java.util.Scanner;
+
+import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+
+import de.letsbuildacompiler.parser.DemoLexer;
+import de.letsbuildacompiler.parser.DemoParser;
+import jasmin.ClassFile;
+
+public class Main {
+
+	private static Path tempDir;
+	private static Path[] tempDirs;
+
+	public static void main(String[] args) throws Exception {
+		ANTLRInputStream input = new ANTLRFileStream("code.demo");
+		System.out.println(compile(input)); input = new ANTLRFileStream("code.demo");
+		System.out.println(run(input));
+	}
+	
+	public static String compile(ANTLRInputStream input) {
+		if (input.size() > 0) {
+			DemoLexer lexer = new DemoLexer(input);
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			DemoParser parser = new DemoParser(tokens);
+			
+			ParseTree tree = parser.program();
+			FunctionList definedFunctions = FunctionDefinitionFinder.findFunctions(tree);
+			Map<String, StorageModel> statics = FunctionDefinitionFinder.findStatics(tree);
+			Map<String, TypeModel> types = FunctionDefinitionFinder.findTypes(tree);
+			return createJasminFile(new MyVisitor(definedFunctions, statics, types).visit(tree));
+		} else {
+			return "could not find any code :/";
+		}
+	}
+	
+	private static String createJasminFile(String instructions) {
+		
+		return ".class public HelloWorld\n" + 
+				".super java/lang/Object\n" + 
+				"\n" + 
+				instructions;
+
+	}
+	
+	public static String run(ANTLRInputStream input) throws Exception {
+		createTempDir();
+
+		String[] result = compile(input).split("'*'");
+		
+		System.out.println(result.length);
+		
+		if(!result.equals("could not find any code :/")) {
+			ClassFile classFile = new ClassFile();
+			classFile.readJasmin(new StringReader(result[0]), "", false);
+			Path outputPath = tempDir.resolve(classFile.getClassName() + ".class");
+			classFile.write(Files.newOutputStream(outputPath));
+
+			createTempDirs(result.length-1);
+			
+			ClassFile[] extraFiles = new ClassFile[result.length -1];
+			for(int i = 0; i < result.length -1; i++) {
+				ClassFile file = extraFiles[i];
+				file.readJasmin(new StringReader(result[i+1]), "extraClassFile" + i, false);
+				Path newPath = tempDirs[i].resolve(file.getClassName() + ".class");
+				file.write(Files.newOutputStream(newPath));
+			}
+			
+			result[0] = runJavaClass(tempDir, classFile.getClassName());
+			deleteTempDir();
+			if (result[0] == null) {
+				return "";
+			}
+			return result[0];
+		}
+		deleteTempDir();
+		deleteTempDirs();
+		return "";
+	}
+	
+	public static void createTempDir() throws IOException {
+		tempDir = Files.createTempDirectory("compilerText");
+	}
+	
+	public static void createTempDirs(int size) throws IOException {
+		tempDirs = new Path[size];
+		for(int i = 0; i < tempDirs.length; i++) {
+			tempDirs[i] = Files.createTempDirectory("t"+i);
+		}
+	}
+	
+	public static void deleteTempDir() {
+		deleteRecursive(tempDir.toFile());
+	}
+	
+	public static void deleteTempDirs() {
+		for(int i = 0; i < tempDirs.length; i++) {
+			deleteRecursive(tempDirs[i].toFile());
+		}
+	}
+	
+	private static void deleteRecursive(File file) {
+		if (file.isDirectory()) {
+			for (File child: file.listFiles()) {
+				deleteRecursive(child);
+			}
+		}
+		if (!file.delete()) {
+			throw new Error("something went wrong, could not delete file");
+		}
+	}
+	
+	private static String runJavaClass(Path dir, String className) throws Exception {
+		Process process = Runtime.getRuntime().exec(new String[]{"java", "-cp", dir.toString(), className});
+		try (InputStream in = process.getInputStream()) {
+			Scanner scanner = new Scanner(in);
+			if(scanner.useDelimiter("\\A").hasNext()) {
+				String result = scanner.useDelimiter("\\A").next();
+				scanner.close();	
+				return result;
+			}
+			scanner.close();
+			return null;
+		}
+	}
+}

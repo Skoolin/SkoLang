@@ -1,0 +1,17 @@
+package de.letsbuildacompiler.compiler;
+
+public class ByteCodeTest {
+	
+	static Second t0;
+	
+	public static void main(String[] args) {
+		t0 = new Second();
+		t0.a = 5;
+		System.out.println(t0.a);
+	}
+}
+
+class Second {
+	public int a;
+	public int b;
+}

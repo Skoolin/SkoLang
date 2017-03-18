@@ -1,0 +1,2 @@
+string[] test = new string[5];
+print(test[4];

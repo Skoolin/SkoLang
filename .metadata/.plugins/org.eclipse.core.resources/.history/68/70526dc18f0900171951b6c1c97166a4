@@ -1,0 +1,16 @@
+package de.letsbuildacompiler.compiler;
+
+public class FunctionList {
+	public boolean contains(String functionName, int parameterCount) {
+		
+	}
+	
+	public void add(String functionName, int parameterCount) {
+		
+	}
+	
+	private static class FunctionDefinition {
+		private String functionName;
+		private int parameterCount;
+	}
+}

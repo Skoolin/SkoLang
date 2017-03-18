@@ -1,0 +1,45 @@
+package de.letsbuildacompiler.compiler;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class FunctionList {
+	private Collection<FunctionDefinition> definitions;
+	
+	public FunctionList() {
+		definitions = new ArrayList<FunctionDefinition>();
+	}
+	
+	public boolean contains(String functionName, int parameterCount) {
+		for(FunctionDefinition definition: definitions) {			
+			if (definition.functionName.equals(functionName) && definition.parameterCount == parameterCount) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public int length() {
+		return definitions.size();
+	}
+	
+	public void add(String functionName, int parameterCount, DataType type) {
+		definitions.add(new FunctionDefinition(functionName, parameterCount, type));
+	}
+	
+	public class FunctionDefinition {
+		private String functionName;
+		private int parameterCount;
+		private DataType type;
+
+		public FunctionDefinition(String functionName, int parameterCount, DataType type) {
+			this.functionName = functionName;
+			this.parameterCount = parameterCount;
+			this.type = type;
+		}
+		
+		public DataType getType() {
+			return type;
+		}
+	}
+}

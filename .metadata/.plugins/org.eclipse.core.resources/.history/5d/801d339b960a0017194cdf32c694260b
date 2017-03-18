@@ -1,0 +1,9 @@
+int erst;
+erst = 5;
+
+string zweit;
+zweit = "huhu";
+
+int[] test = new int[5];
+test[4] = 3;
+print(test[4]);

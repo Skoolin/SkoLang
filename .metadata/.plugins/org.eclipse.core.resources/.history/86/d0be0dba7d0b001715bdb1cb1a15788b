@@ -1,0 +1,40 @@
+package de.letsbuildacompiler.compiler;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author skolin
+ *
+ *  stores informations for a custom DataType.
+ *  its vars are a list of DataTypes, wich are stored in such a dataType.
+ */
+public class TypeModel {
+	/**
+	 * the id of the Type.
+	 */
+	private int id;
+	
+	/**
+	 * a list of all DataTypes in the right order
+	 */
+	private List<DataType> vars;
+	private Map<String, Integer> varNames;
+	
+	public TypeModel(int id, List<DataType> vars, Map<String, Integer> varNames) {
+		this.id = id;
+		this.vars = vars;
+		this.varNames = varNames;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public List<DataType> getVars() {
+		return vars;
+	}
+	
+	public int getAddress(String name) {
+		return varNames.get(name);
+	}
+}

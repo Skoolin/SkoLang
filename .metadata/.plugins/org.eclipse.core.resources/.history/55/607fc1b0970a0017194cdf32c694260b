@@ -1,0 +1,6 @@
+string[] test = new string[4];
+test[1] = "huhu";
+print(test[1]);
+string[] test2 = new string[4];
+test2[1] = "huhu";
+print(test2[1]);

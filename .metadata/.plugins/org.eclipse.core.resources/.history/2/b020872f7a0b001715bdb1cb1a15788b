@@ -1,0 +1,137 @@
+package test;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+
+import de.letsbuildacompiler.compiler.Main;
+import de.letsbuildacompiler.exceptions.FunctionAlreadyDefinedException;
+import de.letsbuildacompiler.exceptions.UndeclaredVariableException;
+import de.letsbuildacompiler.exceptions.UndefinedFunctionException;
+import de.letsbuildacompiler.exceptions.VariableAlreadyDefinedException;
+
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
+
+@RunWith(Parameterized.class)
+public class CompilerTest {
+	
+	private String code;
+	private String result;
+	
+	public CompilerTest(String cod, String res) {
+		code = cod;
+		result = res;
+	}
+	
+	@Test
+	public void assertCodeEqualsExpected() throws Exception {
+		assertEquals(result, compileAndRun(code));
+	}
+	
+	@Test(expected = UndeclaredVariableException.class)
+	public void compilingCode_throwsUndeclaredVariableExCeption() throws Exception {
+		//execution
+		compileAndRun("print(x);");
+	}
+	
+	@Test(expected = VariableAlreadyDefinedException.class)
+	public void compilingCode_throwsDoubledVariableException() throws Exception {
+		//execution
+		compileAndRun("int x; int x;");
+	}
+	
+	@Test(expected = FunctionAlreadyDefinedException.class)
+	public void compilingCode_throwsDoubledFunctionException() throws Exception {
+		//execution
+		compileAndRun("int x() {return 5;} int x() {return 5;}");
+	}
+	
+	@Test(expected = UndefinedFunctionException.class)
+	public void compilingCode_throwsUndefinedFunctionException() throws Exception {
+		//execution
+		compileAndRun("print(x());");
+	}
+	
+	@Parameters
+	public static Collection<Object[]> provide_code_expectedText() {
+		return Arrays.asList(new Object[][] {
+			
+			{"print(1+2);", "3\n"},		// simple math, print
+			{"print(1+2+42);", "45\n"},
+			{"print(1); print(2);", "1\n2\n"},
+			{"print(3-2);", "1\n"},
+			{"print(2*3);", "6\n"},
+			{"print(6/3);", "2\n"},
+			{"print(7/2);", "3\n"},
+			{"print(8-2+5);", "11\n"},
+			{"print(8/2*4);", "16\n"},
+			{"print(2+3*3);", "11\n"},
+			{"print(9-2*3);", "3\n"},
+
+			{"print(1 < 2);", "1\n"},	//less than
+			{"print(2 < 1);", "0\n"},
+			{"print(1 > 2);", "0\n"},	// greater than
+			{"print(2 > 1);", "1\n"},
+			{"print(1 <= 2);", "1\n"},	// less or equal
+			{"print(2 <= 2);", "1\n"},
+			{"print(1 >= 2);", "0\n"},	// greater or equal
+			{"print(2 >= 1);", "1\n"},
+			{"print(1 == 2);", "0\n"},	// equal
+			{"print(2 == 2);", "1\n"},
+			{"print(1 <> 2);", "1\n"},	// not equal
+			{"print(2 <> 2);", "0\n"},
+
+			{"print(1 && 1);", "1\n"},	// and
+			{"print(0 && 1);", "0\n"},
+			{"print(0 && 0);", "0\n"},
+
+			{"print(1 || 1);", "1\n"},	//or
+			{"print(0 || 1);", "1\n"},
+			{"print(0 || 0);", "0\n"},
+		
+			{"int foo; foo = 42; print(foo);", "42\n"},											// variables
+			{"int foo; foo = 42; print(foo+2);", "44\n"},
+			{"int a; int b; a = 2; b = 5; print(a+b);", "7\n"},
+
+			{"int randomNumber() { return 4; } print(randomNumber());", "4\n"},					// call functions
+			{"int randomNumber() { int i; i = 4; return i; } print(randomNumber());", "4\n"},
+			{"int square(int a) { return a*a; } print(square(5));", "25\n"},
+			
+			{"if (0) {\n" + 																	// branching
+					"	print(81);\n" + 
+					"} else {\n" + 
+					"	print(42);\n" + 
+					"}", "42\n"},
+			{"if (1) {\n" + 
+					"	print(81);\n" + 
+					"} else {\n" + 
+					"	print(42);\n" + 
+					"}", "81\n"},
+			
+			{"out(append(\"str\", \"ing\"));", "string"},								// append strings
+
+			{"int i; i = 0; while (i < 3) {i = i + 1;} print(i);", "3\n"},			// loops
+			
+			{"out(42);", "42"},														// out
+			{"out(\"hello world\");", "hello world"},
+			
+			{"out(toString(5));", "5"},												// statics
+			{"out(toInt(\"5\"));", "5"},
+			
+			{"int[] test = new int[5]; test[1] = 4; out(test[1]);", "4"},			// arrays
+			{"string[] test = new string[5];"
+				+ "test[1] = \"huhu\"; out(test[1]);", "huhu"},
+			{"int[] test = new int[5]; out(length(test));", "5"},
+		});
+	}
+
+	public String compileAndRun(String code) throws Exception {
+		return Main.run(new ANTLRInputStream(code));
+	}
+}

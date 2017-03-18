@@ -1,0 +1,4 @@
+int test;
+test = 17;
+test = test + 17;
+print(test);

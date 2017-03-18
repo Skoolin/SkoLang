@@ -1,0 +1,22 @@
+package de.letsbuildacompiler.compiler;
+
+public class StorageModel {
+	
+	private int storageId;
+	private DataType type;
+	
+	public StorageModel(int storageId, DataType type) {
+		super();
+		this.storageId = storageId;
+		this.type = type;
+	}
+
+	public int getStorageId() {
+		return storageId;
+	}
+
+	public DataType getType() {
+		return type;
+	}
+
+}

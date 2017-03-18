@@ -1,0 +1,26 @@
+package de.letsbuildacompiler.compiler;
+
+import java.util.List;
+import java.util.Map;
+
+public class TypeModel {
+	private int id;
+	private List<DataType> vars;
+	private Map<String, String> varNames;
+	
+	public TypeModel(int id, List<DataType> vars) {
+		this.id = id;
+		this.vars = vars;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public List<DataType> getVars() {
+		return vars;
+	}
+	
+	public String getAddress(String name) {
+		return varNames.get(name);
+	}
+}

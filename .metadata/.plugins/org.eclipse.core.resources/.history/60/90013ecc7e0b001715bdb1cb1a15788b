@@ -1,0 +1,32 @@
+package de.letsbuildacompiler.compiler;
+
+public class StorageModel {
+	
+	private int storageId;
+	private DataType type;
+	private int typeAddress;
+	
+	public StorageModel(int storageId, DataType type) {
+		this.storageId = storageId;
+		this.type = type;
+	}
+	
+	public StorageModel(int storageId, DataType type, int typeAddress) {
+		this.storageId = storageId;
+		this.type = type;
+		this.typeAddress = typeAddress;
+	}
+	
+	public int getTypeAdress() {
+		return typeAddress;
+	}
+
+	public int getStorageId() {
+		return storageId;
+	}
+
+	public DataType getType() {
+		return type;
+	}
+
+}

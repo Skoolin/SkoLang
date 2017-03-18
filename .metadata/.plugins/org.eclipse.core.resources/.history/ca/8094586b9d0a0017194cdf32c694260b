@@ -1,0 +1,26 @@
+string stringRepeat(string toRepeat, int number) {
+	int i = 0;
+	string result = "";
+	
+	while (i < number) {
+		result = append(result, toRepeat);
+		i = i + 1;
+	}
+	
+	return result;
+}
+
+int i = 0;
+string[] list = new string[5];
+
+while (i < 5) {
+	list[i] = stringRepeat("test", i);
+	i = i + 1;
+}
+
+i = 0;
+
+while (i < 5) {
+	print(list[i]);
+	 i = i+1;
+}

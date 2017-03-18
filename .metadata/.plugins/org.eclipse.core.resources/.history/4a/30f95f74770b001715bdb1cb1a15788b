@@ -1,0 +1,16 @@
+package de.letsbuildacompiler.compiler;
+
+public class ByteCodeTest {
+	
+	public static huhn erst;
+	
+	public static void main(String[] args) {
+		erst = new huhn();
+		erst.id = 5;
+		System.out.println(erst.id);
+	}
+}
+
+class huhn {
+	public int id;
+}

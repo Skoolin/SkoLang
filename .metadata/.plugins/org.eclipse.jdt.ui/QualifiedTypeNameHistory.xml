@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.antlr.v4.runtime.Token"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="java.lang.NullPointerException"/>
+<fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
+<fullyQualifiedTypeName name="test.CompilerTest"/>
+<fullyQualifiedTypeName name="org.junit.runner.RunWith"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.util.Collection"/>
+<fullyQualifiedTypeName name="java.io.OutputStream"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.exceptions.UndeclaredVariableException"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.exceptions.FunctionAlreadyDefinedException"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.exceptions.UndefinedFunctionException"/>
+<fullyQualifiedTypeName name="java.util.Deque"/>
+<fullyQualifiedTypeName name="java.util.LinkedList"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.JvmStack"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.FunctionCallContext"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.exceptions.SystemFunctionNotFoundException"/>
+<fullyQualifiedTypeName name="org.antlr.v4.runtime.CharStream"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.VarDeclarationContext"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.MainStatementContext"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.FunctionDefinition"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.FunctionDefinitionFinder"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.StorageModel"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.ProgramContext"/>
+<fullyQualifiedTypeName name="org.antlr.v4.runtime.tree.ParseTree"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.exceptions.VariableAlreadyDefinedException"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.ClassDeclarationContext"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.TypeDeclarationContext"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.TypeModel"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.ExtraClassFile0"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.DataType"/>
+</qualifiedTypeNameHistroy>

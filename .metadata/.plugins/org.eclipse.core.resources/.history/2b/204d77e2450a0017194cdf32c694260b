@@ -1,0 +1,27 @@
+package de.letsbuildacompiler.compiler;
+
+import java.util.List;
+
+public class FunctionDefinition {
+	private String functionName;
+	private List<DataType> params;
+	private DataType type;
+
+	public FunctionDefinition(String functionName, List<DataType> params, DataType type) {
+		this.functionName = functionName;
+		this.params = params;
+		this.type = type;
+	}
+	
+	public DataType getType() {
+		return type;
+	}
+
+	public String getFunctionName() {
+		return functionName;
+	}
+
+	public int getParameterCount() {
+		return parameterCount;
+	}
+}

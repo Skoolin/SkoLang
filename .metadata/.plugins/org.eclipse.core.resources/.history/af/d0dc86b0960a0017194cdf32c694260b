@@ -1,0 +1,3 @@
+string[] test;
+test[1] = "huhu";
+print(test[1]);
