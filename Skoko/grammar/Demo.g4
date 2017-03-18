@@ -1,6 +1,8 @@
-grammar Demo;
+grammar Demo;	//0.1
 
-program: programPart+ ;
+program: imports+=importList* programPart+ EOF;
+
+importList: 'import:' (importedFiles+=IDENTIFIER)+ (',' (importedFiles+=IDENTIFIER)*)* ;
 
 programPart: statement			#MainStatement
            | functionDefinition	#ProgPartFunctionDefinition
@@ -17,7 +19,7 @@ statement: print ';'
          | loop
          ;
          
-branch: 'if' '(' condition=expression ')' onTrue=block 'else' onFalse=block
+branch: 'if' '(' condition=expression ')' onTrue=block ('else' onFalse=block)?
 	  ;
 
 loop: 'while' '(' condition=expression ')' body=block
@@ -36,11 +38,12 @@ expression: left=expression '/' right=expression #Div
           | typeName=IDENTIFIER '.' varName = IDENTIFIER	#TypeElement
           | typeName=IDENTIFIER '.' varName=IDENTIFIER '[' index=expression ']'	#TypeArrayField
           | number=NUMBER 						 #Number
+          | bool=BOOL                #Boolean
           | txt=STRING 							 #String
           | varName=IDENTIFIER 					 #Variable
           | constructorCall						 #Constructor
           | systemCall							 #SystemFunctions
-          | functionCall 						 #funcCallExpression
+          | functionCall 						 #FuncCallExpression
           ;
 
 varDeclaration: type=object varName=IDENTIFIER
@@ -103,10 +106,10 @@ SYSTEMFUNC: 'toString'
 		  | 'length'
 		  ;
 
-
+BOOL: 'true' | 'false' ;
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9]* ;
 NUMBER:  [0-9]+;
-COMMENT: '/*' .*? '*/' -> skip;
-LINECOMMENT: '//' .*? '\n' -> skip;
-WHITESPACE: [ \t\n\r]+ -> skip;
+WHITESPACE: [ \t\n\r]+ -> channel(HIDDEN);
 STRING: '"' .*? '"';
+COMMENT: '/*' (COMMENT|.)*? '*/' -> channel(HIDDEN);
+LINECOMMENT: '//' .*? ('\n'|EOF) -> channel(HIDDEN);

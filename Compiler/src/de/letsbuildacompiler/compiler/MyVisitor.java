@@ -1,5 +1,6 @@
 package de.letsbuildacompiler.compiler;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -18,12 +19,14 @@ import de.letsbuildacompiler.parser.DemoParser.AndContext;
 import de.letsbuildacompiler.parser.DemoParser.ArrayElementContext;
 import de.letsbuildacompiler.parser.DemoParser.AssignmentContext;
 import de.letsbuildacompiler.parser.DemoParser.AssignmentListContext;
+import de.letsbuildacompiler.parser.DemoParser.BooleanContext;
 import de.letsbuildacompiler.parser.DemoParser.BranchContext;
 import de.letsbuildacompiler.parser.DemoParser.ClassDeclarationContext;
 import de.letsbuildacompiler.parser.DemoParser.ConstructorCallContext;
 import de.letsbuildacompiler.parser.DemoParser.DivContext;
 import de.letsbuildacompiler.parser.DemoParser.FunctionCallContext;
 import de.letsbuildacompiler.parser.DemoParser.FunctionDefinitionContext;
+import de.letsbuildacompiler.parser.DemoParser.ImportListContext;
 import de.letsbuildacompiler.parser.DemoParser.LoopContext;
 import de.letsbuildacompiler.parser.DemoParser.MainStatementContext;
 import de.letsbuildacompiler.parser.DemoParser.MinusContext;
@@ -49,6 +52,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	private Map<String, StorageModel> statics = new HashMap<>();
 	private Map<String, StorageModel> variables = new HashMap<>();
 	private LinkedHashMap<String, TypeModel> types;
+	private Map<String, Path> importedFiles;
 	private JvmStack jvmStack = new JvmStack();
 	private final FunctionList definedFunctions;
 	private int branchCounter = 0;
@@ -311,6 +315,16 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	public String visitNumber(NumberContext ctx) {
 		jvmStack.push(DataType.INT);
 		return "ldc " + ctx.number.getText();
+	}
+	
+	@Override
+	public String visitBoolean(BooleanContext ctx) {
+		jvmStack.push(DataType.INT);
+		if(ctx.bool.getText().equals("true")) {
+			return "ldc 1";
+		} else {
+			return "ldc 0";
+		}
 	}
 
 	@Override
@@ -669,9 +683,12 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		if (onTrueInstructions == null) {
 			onTrueInstructions = "";
 		}
-		String onFalseInstructions = visit(ctx.onFalse);
-		if (onFalseInstructions == null) {
-			onFalseInstructions = "";
+		String onFalseInstructions = "";
+		if(ctx.onFalse != null) {
+			onFalseInstructions = visit(ctx.onFalse);
+			if (onFalseInstructions == null) {
+				onFalseInstructions = "";
+			}
 		}
 		int branchNum = branchCounter;
 		branchCounter++;
@@ -914,16 +931,36 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 				".end method\n";
 	}
 
+	@Override
+	public String visitImportList(ImportListContext ctx) {
+		for (int i = 0; i < ctx.importedFiles.size(); i++) {
+			String rawAddress = ctx.importedFiles.get(i).getText();
+			if (rawAddress.startsWith(".")) {
+				
+			} else {
+				
+			}
+		}
+		
+		return "";
+	}
+	
 	/**
 	 * recursively visits every token, until the program has been parsed.
 	 * returns the result as a string.
 	 */
 	@Override
 	public String visitProgram(ProgramContext ctx) {
+		int numberOfImportCalls = ctx.imports.size();
+		
+		for (int i = 0; i < numberOfImportCalls; i++) {
+			visit(ctx.getChild(i));
+		}
+		
 		String mainCode = "";
 		String functions = "";
 		String extraClasses = "";
-		for (int i = 0; i < ctx.getChildCount(); ++i) {
+		for (int i = numberOfImportCalls; i < ctx.getChildCount() - 1; i++) {
 			ParseTree child = ctx.getChild(i);
 			String instructions = visit(child);
 			if (child instanceof MainStatementContext) {

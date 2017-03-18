@@ -17,6 +17,12 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(DemoParser.ProgramContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#importList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImportList(DemoParser.ImportListContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code MainStatement}
 	 * labeled alternative in {@link DemoParser#programPart}.
 	 * @param ctx the parse tree
@@ -69,6 +75,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariable(DemoParser.VariableContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code FuncCallExpression}
+	 * labeled alternative in {@link DemoParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFuncCallExpression(DemoParser.FuncCallExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Or}
 	 * labeled alternative in {@link DemoParser#expression}.
 	 * @param ctx the parse tree
@@ -111,13 +124,6 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSystemFunctions(DemoParser.SystemFunctionsContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code funcCallExpression}
-	 * labeled alternative in {@link DemoParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFuncCallExpression(DemoParser.FuncCallExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code Div}
 	 * labeled alternative in {@link DemoParser#expression}.
 	 * @param ctx the parse tree
@@ -152,6 +158,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAnd(DemoParser.AndContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Boolean}
+	 * labeled alternative in {@link DemoParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolean(DemoParser.BooleanContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Plus}
 	 * labeled alternative in {@link DemoParser#expression}.

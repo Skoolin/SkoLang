@@ -137,6 +137,42 @@ public class CompilerTest {
 					"type text {\n" + 
 					"	int teil;\n" + 
 					"}", "5"},
+			
+			{"int sqrt(int number) {\n" + 											//long test for sqrt
+					"	int n = 1;\n" + 
+					"	int n1 = next(n, number);\n" + 
+					"\n" + 
+					"	while (abs(n1 - n) > 2) {\n" + 
+					"		n = n1;\n" + 
+					"		n1 = next(n, number);\n" + 
+					"	}\n" + 
+					"	while(n1*n1 > number) {\n" + 
+					"		n1 = n1 - 1;\n" + 
+					"	}\n" + 
+					"	return n1;\n" + 
+					"}\n" + 
+					"\n" + 
+					"type test {\n" + 
+					"	int first;\n" + 
+					"	int second;\n" + 
+					"}\n" + 
+					"\n" + 
+					"int next(int n, int i) {\n" + 
+					"	int result = i / n;\n" + 
+					"	result = result + n;\n" + 
+					"	return result / 2;\n" + 
+					"}\n" + 
+					"\n" + 
+					"int abs(int number) {\n" + 
+					"	if (number < 0) {\n" + 
+					"		number = 0 - number;\n" + 
+					"	} else {\n" + 
+					"\n" + 
+					"	}\n" + 
+					"	return number;\n" + 
+					"}\n" + 
+					"\n" + 
+					"print(sqrt(16));", "4\n"}
 		});
 	}
 

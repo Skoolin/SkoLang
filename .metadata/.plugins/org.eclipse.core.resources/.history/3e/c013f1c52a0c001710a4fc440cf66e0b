@@ -1,0 +1,6 @@
+package de.letsbuildacompiler.compiler;
+
+public class CustomDataType {
+	private DataType type;
+	private int CustomTypeId;
+}

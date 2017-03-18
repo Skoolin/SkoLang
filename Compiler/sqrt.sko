@@ -13,7 +13,8 @@ int sqrt(int number) {
 }
 
 type test {
-	int first, int second
+	int first;
+	int second;
 }
 
 int next(int n, int i) {
@@ -30,3 +31,5 @@ int abs(int number) {
 	}
 	return number;
 }
+
+print(sqrt(16));
