@@ -471,8 +471,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		String result = get + expression + put;
 		jvmStack.pop();
 		return result;
-	}
-/*
+		
 
 		if (main || statics.containsKey(ctx.varName.getText())) {
 			StorageModel model;
@@ -525,7 +524,8 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		}
 			//TODO TODO TODO
 			//array ist gar nicht schlecht, nur muss das aload ersetzt werden.
-	
+		
+
 		if (main || statics.containsKey(ctx.varName.getText())) {
 			StorageModel model;
 			if(main) {
@@ -557,7 +557,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			return loadCommand + " " + requireVariableIndex(ctx.varName);
 		}
 	}
-*/
+
 	public String visitAssignment(AssignmentContext ctx) {
 		if(ctx.expr == null) {
 			return visitChildren(ctx);

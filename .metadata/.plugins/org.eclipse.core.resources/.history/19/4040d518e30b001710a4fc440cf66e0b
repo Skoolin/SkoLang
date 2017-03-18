@@ -54,9 +54,8 @@ assignment: varName=IDENTIFIER '[' index=expression ']' '=' expr=expression
 		  | typeFieldAssignment
 		  ;
 
-typeFieldAssignment: varName=IDENTIFIER '.' typeVarName=IDENTIFIER '=' expr=expression
-				   | varName=IDENTIFIER '.' typeVarName=IDENTIFIER '[' index=expression ']' '=' expr=expression
-				   ;
+					//add varName=IDENTIFIER '.' typeVarName=IDENTIFIER '[' index=expression ']' '=' expr=expression ; 
+typeFieldAssignment: varName=IDENTIFIER '.' typeVarName=IDENTIFIER '=' expr=expression;
 
 println: 'print(' argument=expression ')' ;
 
