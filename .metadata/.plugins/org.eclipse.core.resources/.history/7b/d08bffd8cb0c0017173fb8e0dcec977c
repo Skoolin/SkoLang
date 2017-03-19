@@ -1,0 +1,22 @@
+package de.letsbuildacompiler.exceptions;
+
+import org.antlr.v4.runtime.Token;
+
+public class WrongDataTypeException extends CompileException {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final String expression;
+
+	public WrongDataTypeException(Token expressionToken) {
+		super(expressionToken);
+		this.expression = expressionToken.getText();
+	}
+	
+	@Override
+	public String getMessage() {
+		return line + ":" +column + " already declared function <" + expression + "()>";
+	}
+}

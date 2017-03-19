@@ -130,6 +130,20 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitString(DemoParser.StringContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code RightShift}
+	 * labeled alternative in {@link DemoParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRightShift(DemoParser.RightShiftContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LeftShift}
+	 * labeled alternative in {@link DemoParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLeftShift(DemoParser.LeftShiftContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code SystemFunctions}
 	 * labeled alternative in {@link DemoParser#expression}.
 	 * @param ctx the parse tree
@@ -143,6 +157,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDiv(DemoParser.DivContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Float}
+	 * labeled alternative in {@link DemoParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFloat(DemoParser.FloatContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Number}
 	 * labeled alternative in {@link DemoParser#expression}.

@@ -90,8 +90,8 @@
 		<item value="11" key="INCLUDE_MASK"/>
 	</section>
 	<section name="completion_proposal_size">
-		<item value="139" key="size.y"/>
-		<item value="321" key="size.x"/>
+		<item value="102" key="size.y"/>
+		<item value="307" key="size.x"/>
 	</section>
 	<section name="AddGetterSetterDialog">
 		<item value="false" key="SortOrdering"/>

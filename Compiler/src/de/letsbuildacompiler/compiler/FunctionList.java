@@ -10,10 +10,20 @@ public class FunctionList {
 		definitions = new ArrayList<FunctionDefinition>();
 	}
 	
-	public boolean contains(String functionName, int parameterCount) {
+	public boolean contains(String functionName, DataType[] params) {
 		for(FunctionDefinition definition: definitions) {			
-			if (definition.getFunctionName().equals(functionName) && definition.getParameterCount() == parameterCount) {
-				return true;
+			DataType[] old = definition.getParams();
+			if (old.length == params.length) {
+				for (int i = 0; i < old.length; i++) {
+					boolean match = true;
+					if(old[i] != params[i]) {
+						match = false;
+						break;
+					}
+					if(match) {
+						return true;
+					}
+				}
 			}
 		}
 		return false;

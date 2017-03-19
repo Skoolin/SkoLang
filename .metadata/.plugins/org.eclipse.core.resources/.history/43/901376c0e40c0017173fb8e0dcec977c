@@ -1,0 +1,29 @@
+package de.letsbuildacompiler.exceptions;
+
+import org.antlr.v4.runtime.Token;
+
+import de.letsbuildacompiler.compiler.DataType;
+import de.letsbuildacompiler.parser.DemoParser.FunctionCallContext;
+
+public class UndefinedFunctionException extends CompileException {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String functionName;
+	private int numberOfParams;
+	private DataType[] params;
+	
+	public UndefinedFunctionException(FunctionCallContext ctx, DataType[] params) {
+		super(ctx.funcName);
+		Token token = ctx.funcName;
+		functionName = token.getText();
+		numberOfParams = ctx.arguments.expressions.size();
+		this.params = params;
+	}
+	
+	@Override
+	public String getMessage() {
+		return line + ":" +column + " undeclared function <" + functionName + "(" + numberOfParams + ")>";
+	}
+}

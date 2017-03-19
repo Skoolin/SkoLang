@@ -1,8 +1,4 @@
 int sqrt(int number) {
-	return 4;
-}
-
-int sqrt(int number) {
 	int n = 1;
 	int n1 = next(n, number);
 
@@ -46,7 +42,7 @@ int max(int a, int b) {
 int min(int a, int b) {
 	int smaller = a;
 	if (b < a) {
-		bigger = b;
+		smaller = b;
 	}
-	return bigger;
+	return smaller;
 }

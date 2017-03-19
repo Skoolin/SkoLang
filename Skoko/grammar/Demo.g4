@@ -33,6 +33,8 @@ expression: left=expression '/' right=expression #Div
           | left=expression '*' right=expression #Mult
           | left=expression '-' right=expression #Minus
           | left=expression '+' right=expression #Plus
+          | left=expression '<<' right=expression #LeftShift
+          | left=expression '>>' right=expression #RightShift
           | left=expression operator=('<' | '<=' | '>' | '>='| '==' | '<>') right=expression #Relational
           | left=expression '&&' right=expression #And
           | left=expression '||' right=expression #Or
@@ -40,7 +42,8 @@ expression: left=expression '/' right=expression #Div
           | typeName=IDENTIFIER '.' varName = IDENTIFIER	#TypeElement
           | typeName=IDENTIFIER '.' varName=IDENTIFIER '[' index=expression ']'	#TypeArrayField
           | number=NUMBER 						 #Number
-          | bool=BOOL                #Boolean
+          | number=FLOAT						 #Float
+          | bool=BOOL                			 #Boolean
           | txt=STRING 							 #String
           | varName=IDENTIFIER 					 #Variable
           | constructorCall						 #Constructor
@@ -101,19 +104,22 @@ object: primitive '[]'
 	  ;
 
 primitive: 'int'
+		 | 'float'
 		 | 'void'
 		 | 'string'
 		 ;
               
 SYSTEMFUNC: 'toString'
 		  | 'toInt'
+		  | 'toFloat'
 		  | 'append'
 		  | 'length'
 		  ;
 
 BOOL: 'true' | 'false' ;
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9]* ;
-NUMBER:  [0-9]+;
+NUMBER: [0-9]+;
+FLOAT: [0-9]+'.'[0-9]+ ;
 WHITESPACE: [ \t\n\r]+ -> channel(HIDDEN);
 STRING: '"' .*? '"';
 COMMENT: '/*' (COMMENT|.)*? '*/' -> channel(HIDDEN);

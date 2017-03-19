@@ -1,0 +1,30 @@
+package de.letsbuildacompiler.compiler;
+
+/**
+ * 
+ * usefull for all kinds of stuff.
+ * examples:
+ * 	show items on stack
+ * 	tell jvm, wich DataType to use
+ * 	differenciate between primitive, array and custom type
+ * etc
+ * 
+ * @author skolin
+ * 
+ */
+public enum DataType {
+	INT("I"), FLOAT("f"), STRING("Ljava/lang/String;"), VOID("V"), IARRAY("[I"), SARRAY("[Ljava/lang/String;"), OBJREF("");
+	
+	private final String jvmType;
+	
+	private DataType(String jvmType) {
+		this.jvmType = jvmType;
+	}
+	
+	/**
+	 * @return the type, as it can be used by the JVM
+	 */
+	public String getJvmType() {
+		return jvmType;
+	}
+}

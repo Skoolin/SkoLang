@@ -1,0 +1,18 @@
+package de.letsbuildacompiler.exceptions;
+
+import org.antlr.v4.runtime.Token;
+
+public class NestedAppendFunctionException extends CompileException {
+
+	public final String funcName;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public NestedAppendFunctionException(Token token) {
+		super(token);
+		funcName = token.getText();
+	}
+
+}

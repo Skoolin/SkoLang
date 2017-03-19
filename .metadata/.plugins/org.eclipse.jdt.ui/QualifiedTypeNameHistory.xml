@@ -41,7 +41,7 @@
 <fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.ExtraClassFile0"/>
 <fullyQualifiedTypeName name="java.nio.file.Path"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.CustomDataType"/>
-<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.ImportFunctionCallContext"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.DataType"/>
+<fullyQualifiedTypeName name="java.io.File"/>
 </qualifiedTypeNameHistroy>

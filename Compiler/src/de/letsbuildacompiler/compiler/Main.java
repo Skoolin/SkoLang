@@ -23,7 +23,7 @@ public class Main {
 
 	private static Path tempDir;
 	private static String programName = "code";
-	private static String[] programNames = {"std_math", "tester"};
+	private static String[] programNames = {};// {"std_math", "tester"};
 	private static File parentDir;
 	private static File currentDir;
 	private static String currentProgramName;
@@ -147,15 +147,15 @@ public class Main {
 	 */
 	public static void createTempDir() throws IOException {
 		tempDir = Files.createTempDirectory(programName);
-//		tempDir.toFile().deleteOnExit();
+		tempDir.toFile().deleteOnExit();
 	}
 
 	/**
 	 * deletes all class files and the folder
 	 */
 	public static void deleteTempDir() {
-//		deleteRecursive(tempDir.toFile());
-//		tempDir.toFile().delete();
+		deleteRecursive(tempDir.toFile());
+		tempDir.toFile().delete();
 	}
 
 	private static void deleteRecursive(File file) {

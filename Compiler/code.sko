@@ -1,4 +1,6 @@
-import:
-  std.math
+int appendInts (int a, int b) {
+	string result = append(toString(a), toString(b));
+	return toInt(result);
+}
 
-out(int: math.sqrt(16));
+print(appendInts(16, 5));

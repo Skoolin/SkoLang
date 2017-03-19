@@ -29,13 +29,19 @@ public class FunctionDefinitionFinder {
 		final FunctionList definedFunctions = new FunctionList();
 		definedFunctions.add("toString", new DataType[] { DataType.INT }, DataType.STRING);
 		definedFunctions.add("toInt", new DataType[] { DataType.STRING }, DataType.INT);
+		definedFunctions.add("toInt", new DataType[] { DataType.FLOAT }, DataType.INT);
+		definedFunctions.add("toFloat", new DataType[] { DataType.INT }, DataType.FLOAT);
+		definedFunctions.add("toFloat", new DataType[] { DataType.STRING }, DataType.FLOAT);
 		definedFunctions.add("print", new DataType[] { DataType.INT }, DataType.VOID);
 		definedFunctions.add("out", new DataType[] { DataType.INT }, DataType.VOID);
+		definedFunctions.add("print", new DataType[] { DataType.FLOAT }, DataType.VOID);
+		definedFunctions.add("out", new DataType[] { DataType.FLOAT }, DataType.VOID);
 		definedFunctions.add("print", new DataType[] { DataType.STRING }, DataType.VOID);
 		definedFunctions.add("out", new DataType[] { DataType.STRING }, DataType.VOID);
 		definedFunctions.add("append", new DataType[] { DataType.STRING, DataType.STRING }, DataType.STRING);
-		definedFunctions.add("length", new DataType[] {DataType.IARRAY}, DataType.INT);
-		definedFunctions.add("length", new DataType[] {DataType.SARRAY}, DataType.INT);
+		definedFunctions.add("length", new DataType[] {DataType.IARRAY }, DataType.INT);
+		definedFunctions.add("length", new DataType[] {DataType.SARRAY }, DataType.INT);
+		definedFunctions.add("length", new DataType[] {DataType.FARRAY }, DataType.INT);
 		
 		new DemoBaseVisitor<Void>() {
 			@Override
@@ -49,6 +55,9 @@ public class FunctionDefinitionFinder {
 					switch (ctx.params.declarations.get(i).type.getText()) {
 					case "int":
 						break;
+					case "float":
+						paramType = DataType.FLOAT;
+						break;
 					case "string":
 						paramType = DataType.STRING;
 						break;
@@ -57,6 +66,9 @@ public class FunctionDefinitionFinder {
 						break;
 					case "int[]":
 						paramType = DataType.IARRAY;
+						break;
+					case "float[]":
+						paramType = DataType.FARRAY;
 						break;
 					default:
 						break;
@@ -67,6 +79,9 @@ public class FunctionDefinitionFinder {
 				switch (ctx.type.getText()) {
 				case "int":
 					break;
+				case "float":
+					type = DataType.FLOAT;
+					break;
 				case "string":
 					type = DataType.STRING;
 					break;
@@ -76,10 +91,13 @@ public class FunctionDefinitionFinder {
 				case "int[]":
 					type = DataType.IARRAY;
 					break;
+				case "float[]":
+					type = DataType.FARRAY;
+					break;
 				default:
 					break;
 				}
-				if (definedFunctions.contains(functionName, parameterCount)) {
+				if (definedFunctions.contains(functionName, params)) {
 					throw new FunctionAlreadyDefinedException(ctx.funcName);
 				}
 				definedFunctions.add(functionName, params, type);
@@ -123,11 +141,17 @@ public class FunctionDefinitionFinder {
 					switch(ctx.declarations.declarations.get(i).type.getText()) {
 					case "int":
 						break;
+					case "float":
+						type = DataType.FLOAT;
+						break;
 					case "string":
 						type = DataType.STRING;
 						break;
 					case "string[]":
 						type = DataType.SARRAY;
+						break;
+					case "float[]":
+						type = DataType.FARRAY;
 						break;
 					case "int[]":
 						type = DataType.IARRAY;
@@ -183,11 +207,17 @@ public class FunctionDefinitionFinder {
 				case "string":
 					type = DataType.STRING;
 					break;
+				case "float":
+					type = DataType.FLOAT;
+					break;
 				case "int[]":
 					type = DataType.IARRAY;
 					break;
 				case "string[]":
 					type = DataType.SARRAY;
+					break;
+				case "float[]":
+					type = DataType.FARRAY;
 					break;
 				default:
 					type = DataType.OBJREF;
