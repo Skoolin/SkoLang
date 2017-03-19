@@ -23,4 +23,15 @@ int appendInts (int a, int b) {
 }
 
 print(appendInts(int: math.sqrt(16), 4));
+
+int[] intArray = new int[5];
+
+int i = 0;
+while (i < 5) {
+	intArray[i] = i;
+	i = i+1;
+}
+
+print(intArray[4]);
 ```
+returns "444".
