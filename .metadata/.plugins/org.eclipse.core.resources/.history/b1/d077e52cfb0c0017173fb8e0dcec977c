@@ -146,7 +146,7 @@ public class Main {
 	 * @throws IOException
 	 */
 	public static void createTempDir() throws IOException {
-		tempDir = Files.createTempDirectory(programName.split("/")[programName.split("/").length -1]);
+		tempDir = Files.createTempDirectory(programName);
 		tempDir.toFile().deleteOnExit();
 	}
 

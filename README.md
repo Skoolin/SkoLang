@@ -28,14 +28,14 @@ int[] intArray = new int[5];
 
 int i = 0;
 while (i < 5) {
-	intArray[i] = i;
-	i = i+1;
+  intArray[i] = i;
+  i = i+1;
 }
 
 out(intArray[4]);
 
 type Integer {
-	int number;
+  int number;
 }
 
 Integer four = new Integer(4);

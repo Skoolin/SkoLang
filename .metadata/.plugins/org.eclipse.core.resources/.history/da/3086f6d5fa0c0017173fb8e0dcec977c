@@ -88,7 +88,8 @@ public class Main {
 		for(int pro = 0; pro < programNames.length; pro++) {
 			
 			ANTLRInputStream testClass = new ANTLRFileStream(programNames[pro] + ".sko");
-			currentProgramName = programNames[pro].replace('/', '_');
+			String split = programNames[pro].replace('/', '_');
+			currentProgramName = split;
 			currentDir = new File(parentDir.getPath(), currentProgramName + ".sko");
 			
 			String[] testResult = compile(testClass).split("\\*");
@@ -110,14 +111,13 @@ public class Main {
 			}
 		}
 
-		currentProgramName = programName.replace('/', '_');
+		currentProgramName = programName;
 		String[] result = compile(input).split("\\*");
-		currentDir = new File(parentDir.getPath(), currentProgramName + ".sko");
 
 		if (!result[0].equals("could not find any code :/")) {
 			ClassFile classFile = new ClassFile();
 			classFile.readJasmin(new StringReader(result[0]), "", false);
-			Path outputPath = tempDir.resolve(currentDir.getAbsolutePath().substring(0, currentDir.getAbsolutePath().length() - 4) + ".class");
+			Path outputPath = tempDir.resolve(classFile.getClassName() + ".class");
 			classFile.write(Files.newOutputStream(outputPath));
 
 			ClassFile[] extraFiles = new ClassFile[result.length - 1];
@@ -146,7 +146,7 @@ public class Main {
 	 * @throws IOException
 	 */
 	public static void createTempDir() throws IOException {
-		tempDir = Files.createTempDirectory(programName.split("/")[programName.split("/").length -1]);
+		tempDir = Files.createTempDirectory(programName);
 		tempDir.toFile().deleteOnExit();
 	}
 

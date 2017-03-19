@@ -22,7 +22,7 @@ import jasmin.ClassFile;
 public class Main {
 
 	private static Path tempDir;
-	private static String programName = "code";
+	private static String programName = "std/code";
 	private static String[] programNames = {"std/math", "tester"};
 	private static File parentDir;
 	private static File currentDir;

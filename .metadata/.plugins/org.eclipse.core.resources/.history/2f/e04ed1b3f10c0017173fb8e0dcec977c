@@ -1133,7 +1133,8 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		for (int i = 0; i < ctx.importedFiles.size(); i++) {
 			String rawAddress = ctx.importedFiles.get(i).getText();
 			File file;
-			if (rawAddress.startsWith(".")) {//TODO should look relative to current file path
+			if (rawAddress.startsWith(".")) {
+				rawAddress = rawAddress.substring(1, rawAddress.length());
 				rawAddress = rawAddress.replace('.', '_');
 				file = new File(currentDir, rawAddress);
 			} else {
