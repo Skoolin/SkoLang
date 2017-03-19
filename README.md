@@ -22,7 +22,7 @@ int appendInts (int a, int b) {
   return toInt(result);
 }
 
-print(appendInts(int: math.sqrt(16), 4));
+out(appendInts(int: math.sqrt(16), 4));
 
 int[] intArray = new int[5];
 
