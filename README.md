@@ -13,7 +13,7 @@ currently in a very early stage.
 
 ```c++
 import:
-  math
+  std.math
 
 int appendInts (int a, int b) {
   string first = toString(a);
