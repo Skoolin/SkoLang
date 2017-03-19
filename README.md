@@ -32,6 +32,13 @@ while (i < 5) {
 	i = i+1;
 }
 
-print(intArray[4]);
+out(intArray[4]);
+
+type Integer {
+	int number;
+}
+
+Integer four = new Integer(4);
+print(four.number);
 ```
-returns "444".
+returns "4444".
