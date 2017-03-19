@@ -1,0 +1,10 @@
+public class ByteCodeTest {
+	
+	public static void main(String[] args) {
+		n0 = test();
+	}
+}
+
+class tester {
+	public static 
+}

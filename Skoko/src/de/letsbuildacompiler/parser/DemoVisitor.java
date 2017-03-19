@@ -23,6 +23,12 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImportList(DemoParser.ImportListContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#path}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPath(DemoParser.PathContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code MainStatement}
 	 * labeled alternative in {@link DemoParser#programPart}.
 	 * @param ctx the parse tree
@@ -102,6 +108,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitConstructor(DemoParser.ConstructorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ImportFuncExpression}
+	 * labeled alternative in {@link DemoParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImportFuncExpression(DemoParser.ImportFuncExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Relational}
 	 * labeled alternative in {@link DemoParser#expression}.
@@ -264,6 +277,12 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionCall(DemoParser.FunctionCallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#importFunctionCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImportFunctionCall(DemoParser.ImportFunctionCallContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DemoParser#expressionList}.
 	 * @param ctx the parse tree

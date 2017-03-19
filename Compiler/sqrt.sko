@@ -12,11 +12,6 @@ int sqrt(int number) {
 	return n1;
 }
 
-type test {
-	int first;
-	int second;
-}
-
 int next(int n, int i) {
 	int result = i / n;
 	result = result + n;
@@ -31,5 +26,3 @@ int abs(int number) {
 	}
 	return number;
 }
-
-print(sqrt(16));

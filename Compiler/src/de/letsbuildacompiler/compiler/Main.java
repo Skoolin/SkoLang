@@ -23,6 +23,10 @@ public class Main {
 
 	private static Path tempDir;
 	private static String programName = "code";
+	private static String[] programNames = {"sqrt", "tester"};
+	private static File parentDir;
+	private static File currentDir;
+	private static String currentProgramName;
 
 	/**
 	 * compiles and runs the code written in the code.demo file. creates a
@@ -33,8 +37,6 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 		ANTLRInputStream input = new ANTLRFileStream(programName + ".sko");
-		System.out.println(compile(input));
-		input = new ANTLRFileStream(programName + ".sko");
 		System.out.println(run(input));
 	}
 
@@ -54,7 +56,9 @@ public class Main {
 		FunctionList definedFunctions = FunctionDefinitionFinder.findFunctions(tree);
 		LinkedHashMap<String, TypeModel> types = FunctionDefinitionFinder.findTypes(tree);
 		Map<String, StorageModel> statics = FunctionDefinitionFinder.findStatics(tree, types);
-		return createJasminFile(new MyVisitor(definedFunctions, statics, types, programName).visit(tree));
+		String result = createJasminFile(new MyVisitor(definedFunctions, statics, types, currentProgramName, parentDir, currentDir).visit(tree));
+//		System.out.println(result);
+		return result;
 	}
 
 	/**
@@ -78,7 +82,35 @@ public class Main {
 	 */
 	public static String run(ANTLRInputStream input) throws Exception {
 		createTempDir();
+		parentDir = tempDir.toFile();
+		currentDir = tempDir.toFile();
+		
+		
+		for(int pro = 0; pro < programNames.length; pro++) {
+			
+			ANTLRInputStream testClass = new ANTLRFileStream(programNames[pro] + ".sko");
+			currentProgramName = programNames[pro];
+			
+			String[] testResult = compile(testClass).split("\\*");
 
+			if (!testResult[0].equals("could not find any code :/")) {
+				ClassFile classFile = new ClassFile();
+				classFile.readJasmin(new StringReader(testResult[0]), "", false);
+				Path outputPath = tempDir.resolve(classFile.getClassName() + ".class");
+				classFile.write(Files.newOutputStream(outputPath));
+
+				ClassFile[] extraFiles = new ClassFile[testResult.length - 1];
+				for (int i = 0; i < testResult.length - 1; i++) {
+					ClassFile file = new ClassFile();
+					extraFiles[i] = file;
+					file.readJasmin(new StringReader(testResult[i + 1]), "", false);
+					Path newPath = tempDir.resolve(file.getClassName() + ".class");
+					file.write(Files.newOutputStream(newPath));
+				}
+			}
+		}
+
+		currentProgramName = programName;
 		String[] result = compile(input).split("\\*");
 
 		if (!result[0].equals("could not find any code :/")) {

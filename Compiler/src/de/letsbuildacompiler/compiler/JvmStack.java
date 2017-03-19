@@ -26,4 +26,8 @@ public class JvmStack {
 	public DataType pop() {
 		return typesOnStack.pop();
 	}
+	
+	public DataType peek() {
+		return typesOnStack.peek();
+	}
 }

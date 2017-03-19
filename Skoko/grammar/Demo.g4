@@ -2,7 +2,9 @@ grammar Demo;	//0.1
 
 program: imports+=importList* programPart+ EOF;
 
-importList: 'import:' (importedFiles+=IDENTIFIER)+ (',' (importedFiles+=IDENTIFIER)*)* ;
+importList: 'import:' (importedFiles+=path)+ (',' (importedFiles+=path)*)* ;
+
+path: '.'? IDENTIFIER ('.' IDENTIFIER)* ;
 
 programPart: statement			#MainStatement
            | functionDefinition	#ProgPartFunctionDefinition
@@ -44,6 +46,7 @@ expression: left=expression '/' right=expression #Div
           | constructorCall						 #Constructor
           | systemCall							 #SystemFunctions
           | functionCall 						 #FuncCallExpression
+          | importFunctionCall       #ImportFuncExpression
           ;
 
 varDeclaration: type=object varName=IDENTIFIER
@@ -80,6 +83,8 @@ statementList: statement* ;
 systemCall: funcName=SYSTEMFUNC '(' arguments=expressionList ')' ;
 
 functionCall: funcName=IDENTIFIER '(' arguments=expressionList ')' ;
+
+importFunctionCall: ident=object ':' importDir=IDENTIFIER '.' funcName=IDENTIFIER '(' arguments=expressionList ')' ;
 
 expressionList: expressions+=expression (',' expressions+=expression)*
               |

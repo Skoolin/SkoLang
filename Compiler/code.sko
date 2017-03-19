@@ -1,4 +1,10 @@
-if(false) {
-	print("huhu");
-}
-print(1);
+import:
+	tester, sqrt
+
+print(int: tester.run(5));
+
+print(int: tester.sqrt(16));
+
+print(string: tester.mega("16", "2"));
+
+print(int: sqrt.sqrt(29));

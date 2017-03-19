@@ -1,0 +1,3 @@
+int run(int test) {
+	return 5;
+\
