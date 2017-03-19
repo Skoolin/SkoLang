@@ -13,7 +13,7 @@ currently in a very early stage.
 
 ```c++
 import:
-  math
+  std.math
 
 int appendInts (int a, int b) {
   string first = toString(a);
@@ -32,6 +32,13 @@ while (i < 5) {
 	i = i+1;
 }
 
-print(intArray[4]);
+out(intArray[4]);
+
+type Integer {
+	int number;
+}
+
+Integer four = new Integer(4);
+print(four.number);
 ```
-returns "444".
+returns "4444".
