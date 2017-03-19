@@ -24,11 +24,13 @@ public class FunctionList {
 						break;
 					}
 				}
+				System.out.println(match);
 				if(match) {
 					return true;
 				}
 			}
 		}
+		System.out.println("huhu");			
 		return false;
 	}
 	

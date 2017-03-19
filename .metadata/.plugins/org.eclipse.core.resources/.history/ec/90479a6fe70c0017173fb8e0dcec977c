@@ -12,8 +12,9 @@ public class FunctionList {
 	
 	public boolean contains(String functionName, DataType[] params) {
 		for(FunctionDefinition definition: definitions) {
+			System.out.println("huhu");			
 			DataType[] old = definition.getParams();
-			if (old.length == params.length && functionName.equals(definition.getFunctionName())) {
+			if (old.length == params.length && functionName == definition.getFunctionName()) {
 				if(old.length == 0 && params.length == 0) {
 					return true;
 				}
@@ -24,6 +25,7 @@ public class FunctionList {
 						break;
 					}
 				}
+				System.out.println(match);
 				if(match) {
 					return true;
 				}

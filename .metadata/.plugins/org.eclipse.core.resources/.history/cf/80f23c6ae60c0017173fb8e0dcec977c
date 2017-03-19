@@ -11,14 +11,14 @@ public class FunctionList {
 	}
 	
 	public boolean contains(String functionName, DataType[] params) {
-		for(FunctionDefinition definition: definitions) {
+		for(FunctionDefinition definition: definitions) {			
 			DataType[] old = definition.getParams();
-			if (old.length == params.length && functionName.equals(definition.getFunctionName())) {
+			if (old.length == params.length && functionName == definition.getFunctionName()) {
 				if(old.length == 0 && params.length == 0) {
 					return true;
 				}
-				boolean match = true;
 				for (int i = 0; i < old.length; i++) {
+					boolean match = true;
 					if(old[i] != params[i]) {
 						match = false;
 						break;

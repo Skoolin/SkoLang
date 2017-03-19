@@ -1,6 +1,2 @@
-int appendInts (int a, int b) {
-	string result = append(toString(a), toString(b));
-	return toInt(result);
-}
-
-print(appendInts(16, 5));
+int x() {return 5;}
+print(x());

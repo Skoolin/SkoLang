@@ -111,6 +111,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	public String visitPlus(PlusContext ctx) {
 		String instructions = visitChildren(ctx);
 		DataType type = jvmStack.peek();
+		System.out.println(type.getJvmType());
 		if (jvmStack.peek() == DataType.INT) {
 			instructions += "\n" + "iadd";
 		} else if (jvmStack.peek() == DataType.FLOAT) {
@@ -128,6 +129,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	public String visitMinus(MinusContext ctx) {
 		String instructions = visitChildren(ctx);
 		DataType type = jvmStack.peek();
+		System.out.println(type.getJvmType());
 		if (jvmStack.peek() == DataType.INT) {
 			instructions += "\n" + "isub";
 		} else if (jvmStack.peek() == DataType.FLOAT) {
@@ -145,6 +147,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	public String visitDiv(DivContext ctx) {
 		String instructions = visitChildren(ctx);
 		DataType type = jvmStack.peek();
+		System.out.println(type.getJvmType());
 		if (jvmStack.peek() == DataType.INT) {
 			instructions += "\n" + "idiv";
 		} else if (jvmStack.peek() == DataType.FLOAT) {
@@ -162,6 +165,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	public String visitMult(MultContext ctx) {
 		String instructions = visitChildren(ctx);
 		DataType type = jvmStack.peek();
+		System.out.println(type.getJvmType());
 		if (jvmStack.peek() == DataType.INT) {
 			instructions += "\n" + "imul";
 		} else if (jvmStack.peek() == DataType.FLOAT) {

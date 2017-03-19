@@ -11,9 +11,9 @@ public class FunctionList {
 	}
 	
 	public boolean contains(String functionName, DataType[] params) {
-		for(FunctionDefinition definition: definitions) {
+		for(FunctionDefinition definition: definitions) {			
 			DataType[] old = definition.getParams();
-			if (old.length == params.length && functionName.equals(definition.getFunctionName())) {
+			if (old.length == params.length && functionName == definition.getFunctionName()) {
 				if(old.length == 0 && params.length == 0) {
 					return true;
 				}
