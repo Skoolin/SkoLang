@@ -1,0 +1,21 @@
+import:
+  std.math
+
+int appendInts (int a, int b) {
+  string first = toString(a);
+  string second = toString(b);
+  string result = append(first,second);
+  return toInt(result);
+}
+
+out(appendInts(int: sqrt.sqrt(16), 4));
+
+int[] intArray = new int[5];
+
+int i = 0;
+while (i < 5) {
+	intArray[i] = i;
+	i = i+1;
+}
+
+print(intArray[4]);

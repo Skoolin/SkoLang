@@ -2,22 +2,23 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="visitVariabl" key="selection"/>
+		<item value="visit" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="visitVariabl"/>
-			<item value="visi"/>
-			<item value="visitArray"/>
-			<item value="visitTy"/>
-			<item value="vis"/>
-			<item value="vardeclarat"/>
-			<item value="putfield"/>
-			<item value="visitTypeE"/>
+			<item value="visit"/>
+			<item value="visitE"/>
+			<item value="visitEx"/>
+			<item value="visitExpre"/>
+			<item value="visitArgum"/>
+			<item value="visitArgumentL"/>
+			<item value="invokevirtu"/>
+			<item value="visitFunctio"/>
 		</list>
 		<list key="replacehistory">
+			<item value="&quot; + header + &quot;"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

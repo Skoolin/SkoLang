@@ -39,5 +39,9 @@
 <fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.TypeModel"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.ExtraClassFile0"/>
+<fullyQualifiedTypeName name="java.nio.file.Path"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.CustomDataType"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.ImportFunctionCallContext"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.DataType"/>
 </qualifiedTypeNameHistroy>

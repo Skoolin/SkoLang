@@ -4227,3 +4227,74 @@ New file: /home/skolin/Desktop/eclipse/configuration/org.eclipse.osgi/519/0/.cp/
 
 !ENTRY org.eclipse.launchbar.core 2 0 2017-03-18 14:58:47.199
 !MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType
+!SESSION 2017-03-19 12:19:47.664 -----------------------------------------------
+eclipse.buildId=4.6.2.M20161124-1400
+java.version=1.8.0_121
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.brainwy.liclipsetext.shared_core 1 1 2017-03-19 12:20:41.481
+!MESSAGE Warning: overriding default language definition for file extension: html
+Old file: text.html.basic - Zip: /home/skolin/Desktop/eclipse/configuration/org.eclipse.osgi/519/0/.cp/languages/html.tmbundle/html.tmbundle-master/Syntaxes/HTML.plist
+New file: /home/skolin/Desktop/eclipse/configuration/org.eclipse.osgi/519/0/.cp/languages/html.liclipse
+!STACK 0
+java.lang.RuntimeException: Warning: overriding default language definition for file extension: html
+Old file: text.html.basic - Zip: /home/skolin/Desktop/eclipse/configuration/org.eclipse.osgi/519/0/.cp/languages/html.tmbundle/html.tmbundle-master/Syntaxes/HTML.plist
+New file: /home/skolin/Desktop/eclipse/configuration/org.eclipse.osgi/519/0/.cp/languages/html.liclipse
+	at org.brainwy.liclipsetext.shared_core.log.Log.logInfo(Log.java:52)
+	at org.brainwy.liclipsetext.editor.languages.LanguagesManager.fill(LanguagesManager.java:523)
+	at org.brainwy.liclipsetext.editor.languages.LanguagesManager.registerFileExtensions(LanguagesManager.java:488)
+	at org.brainwy.liclipsetext.editor.languages.LanguagesManager.loadFile(LanguagesManager.java:467)
+	at org.brainwy.liclipsetext.editor.languages.LanguagesManager.reloadAll(LanguagesManager.java:275)
+	at org.brainwy.liclipsetext.editor.languages.LanguagesManager.<init>(LanguagesManager.java:134)
+	at org.brainwy.liclipsetext.editor.LiClipseTextEditorPlugin.getLanguagesManager(LiClipseTextEditorPlugin.java:195)
+	at org.brainwy.liclipsetext.editor.LiClipseEditorOverride.overrideDefaultEditor(LiClipseEditorOverride.java:66)
+	at org.eclipse.ui.ide.IDE.overrideDefaultEditorAssociation(IDE.java:897)
+	at org.eclipse.ui.ide.IDE.getDefaultEditor(IDE.java:1610)
+	at org.eclipse.ui.ide.IDE.getDefaultEditor(IDE.java:1561)
+	at org.eclipse.ui.internal.ide.ContentTypeDecorator.decorate(ContentTypeDecorator.java:52)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorDefinition.decorate(LightweightDecoratorDefinition.java:260)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorManager$LightweightRunnable.run(LightweightDecoratorManager.java:100)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorManager.decorate(LightweightDecoratorManager.java:383)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorManager.getDecorations(LightweightDecoratorManager.java:365)
+	at org.eclipse.ui.internal.decorators.DecorationScheduler$1.ensureResultCached(DecorationScheduler.java:367)
+	at org.eclipse.ui.internal.decorators.DecorationScheduler$1.run(DecorationScheduler.java:327)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.brainwy.liclipsetext.shared_core 1 1 2017-03-19 12:20:41.500
+!MESSAGE Warning: overriding default language definition for file extension: htm
+Old file: text.html.basic - Zip: /home/skolin/Desktop/eclipse/configuration/org.eclipse.osgi/519/0/.cp/languages/html.tmbundle/html.tmbundle-master/Syntaxes/HTML.plist
+New file: /home/skolin/Desktop/eclipse/configuration/org.eclipse.osgi/519/0/.cp/languages/html.liclipse
+!STACK 0
+java.lang.RuntimeException: Warning: overriding default language definition for file extension: htm
+Old file: text.html.basic - Zip: /home/skolin/Desktop/eclipse/configuration/org.eclipse.osgi/519/0/.cp/languages/html.tmbundle/html.tmbundle-master/Syntaxes/HTML.plist
+New file: /home/skolin/Desktop/eclipse/configuration/org.eclipse.osgi/519/0/.cp/languages/html.liclipse
+	at org.brainwy.liclipsetext.shared_core.log.Log.logInfo(Log.java:52)
+	at org.brainwy.liclipsetext.editor.languages.LanguagesManager.fill(LanguagesManager.java:523)
+	at org.brainwy.liclipsetext.editor.languages.LanguagesManager.registerFileExtensions(LanguagesManager.java:488)
+	at org.brainwy.liclipsetext.editor.languages.LanguagesManager.loadFile(LanguagesManager.java:467)
+	at org.brainwy.liclipsetext.editor.languages.LanguagesManager.reloadAll(LanguagesManager.java:275)
+	at org.brainwy.liclipsetext.editor.languages.LanguagesManager.<init>(LanguagesManager.java:134)
+	at org.brainwy.liclipsetext.editor.LiClipseTextEditorPlugin.getLanguagesManager(LiClipseTextEditorPlugin.java:195)
+	at org.brainwy.liclipsetext.editor.LiClipseEditorOverride.overrideDefaultEditor(LiClipseEditorOverride.java:66)
+	at org.eclipse.ui.ide.IDE.overrideDefaultEditorAssociation(IDE.java:897)
+	at org.eclipse.ui.ide.IDE.getDefaultEditor(IDE.java:1610)
+	at org.eclipse.ui.ide.IDE.getDefaultEditor(IDE.java:1561)
+	at org.eclipse.ui.internal.ide.ContentTypeDecorator.decorate(ContentTypeDecorator.java:52)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorDefinition.decorate(LightweightDecoratorDefinition.java:260)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorManager$LightweightRunnable.run(LightweightDecoratorManager.java:100)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorManager.decorate(LightweightDecoratorManager.java:383)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorManager.getDecorations(LightweightDecoratorManager.java:365)
+	at org.eclipse.ui.internal.decorators.DecorationScheduler$1.ensureResultCached(DecorationScheduler.java:367)
+	at org.eclipse.ui.internal.decorators.DecorationScheduler$1.run(DecorationScheduler.java:327)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.launchbar.core 2 0 2017-03-19 12:23:53.869
+!MESSAGE Enablement expression is missing for descriptor type org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY org.eclipse.launchbar.core 2 0 2017-03-19 12:23:53.872
+!MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType

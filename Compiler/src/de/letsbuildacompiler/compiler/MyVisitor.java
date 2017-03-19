@@ -52,7 +52,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 
 	private Map<String, StorageModel> statics = new HashMap<>();
 	private Map<String, StorageModel> variables = new HashMap<>();
-	private Map<String, File> importedFiles = new HashMap<>();
+	private Map<String, String> importedFiles = new HashMap<>();
 	private LinkedHashMap<String, TypeModel> types;
 	private File parentDir;
 	private File currentDir;
@@ -875,7 +875,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		if (argumentsInstructions != null) {
 			instructions += argumentsInstructions + '\n';
 		}
-		instructions += "invokestatic " + importedFiles.get(ctx.importDir.getText()).getPath().substring(parentDir.getAbsolutePath().length() + 1) + "/" + ctx.funcName.getText() + "(";
+		instructions += "invokestatic " + importedFiles.get(ctx.importDir.getText()) + "/" + ctx.funcName.getText() + "(";
 		instructions += paramTypes + ")" + type.getJvmType();
 		for (int i = 0; i < numberOfParameters; i++) {
 			jvmStack.pop();
@@ -942,13 +942,15 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			File file;
 			if (rawAddress.startsWith(".")) {
 				rawAddress = rawAddress.substring(1, rawAddress.length());
-				rawAddress = rawAddress.replaceAll("\\.", "/");
+				rawAddress = rawAddress.replace('.', '_');
 				file = new File(currentDir, rawAddress);
 			} else {
-				rawAddress = rawAddress.replaceAll("\\.", "/");
+				rawAddress = rawAddress.replace('.', '_');
 				file = new File(parentDir, rawAddress);
 			}
-			importedFiles.put(file.getName(), file);
+			String substitute = file.getName().split("_")[file.getName().split("_").length - 1];
+			System.out.println(substitute);
+			importedFiles.put(substitute, file.getAbsolutePath().substring(parentDir.getAbsolutePath().length() + 1));
 		}
 		return "";
 	}

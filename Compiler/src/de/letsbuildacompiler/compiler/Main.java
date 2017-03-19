@@ -23,7 +23,7 @@ public class Main {
 
 	private static Path tempDir;
 	private static String programName = "code";
-	private static String[] programNames = {"sqrt", "tester"};
+	private static String[] programNames = {"std_math", "tester"};
 	private static File parentDir;
 	private static File currentDir;
 	private static String currentProgramName;
@@ -41,7 +41,7 @@ public class Main {
 	}
 
 	/**
-	 * compiles the code from the input stream to jasmin assembler code, ir
+	 * compiles the code from the input stream to jasmin assembler code, or
 	 * "could not find any code :/", if there isn't any.
 	 * 
 	 * @param input
@@ -57,7 +57,7 @@ public class Main {
 		LinkedHashMap<String, TypeModel> types = FunctionDefinitionFinder.findTypes(tree);
 		Map<String, StorageModel> statics = FunctionDefinitionFinder.findStatics(tree, types);
 		String result = createJasminFile(new MyVisitor(definedFunctions, statics, types, currentProgramName, parentDir, currentDir).visit(tree));
-//		System.out.println(result);
+		System.out.println(result);
 		return result;
 	}
 
@@ -83,20 +83,21 @@ public class Main {
 	public static String run(ANTLRInputStream input) throws Exception {
 		createTempDir();
 		parentDir = tempDir.toFile();
-		currentDir = tempDir.toFile();
 		
 		
 		for(int pro = 0; pro < programNames.length; pro++) {
 			
 			ANTLRInputStream testClass = new ANTLRFileStream(programNames[pro] + ".sko");
-			currentProgramName = programNames[pro];
+			String[] split = programNames[pro].split("/");
+			currentProgramName = split[split.length-1];
+			currentDir = new File(parentDir.getPath(), programNames[pro] + ".sko");
 			
 			String[] testResult = compile(testClass).split("\\*");
 
 			if (!testResult[0].equals("could not find any code :/")) {
 				ClassFile classFile = new ClassFile();
 				classFile.readJasmin(new StringReader(testResult[0]), "", false);
-				Path outputPath = tempDir.resolve(classFile.getClassName() + ".class");
+				Path outputPath = tempDir.resolve(currentDir.getAbsolutePath().substring(0, currentDir.getAbsolutePath().length() - 4) + ".class");
 				classFile.write(Files.newOutputStream(outputPath));
 
 				ClassFile[] extraFiles = new ClassFile[testResult.length - 1];
@@ -146,15 +147,15 @@ public class Main {
 	 */
 	public static void createTempDir() throws IOException {
 		tempDir = Files.createTempDirectory(programName);
-		tempDir.toFile().deleteOnExit();
+//		tempDir.toFile().deleteOnExit();
 	}
 
 	/**
 	 * deletes all class files and the folder
 	 */
 	public static void deleteTempDir() {
-		deleteRecursive(tempDir.toFile());
-		tempDir.toFile().delete();
+//		deleteRecursive(tempDir.toFile());
+//		tempDir.toFile().delete();
 	}
 
 	private static void deleteRecursive(File file) {
