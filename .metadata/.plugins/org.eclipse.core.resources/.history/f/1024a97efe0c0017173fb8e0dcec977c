@@ -1,0 +1,8 @@
+int run(int test) {
+	return 5;
+}
+
+
+string mega(string first, string second) {
+	return append(first, second);
+}

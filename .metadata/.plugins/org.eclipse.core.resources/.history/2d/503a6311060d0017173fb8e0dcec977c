@@ -1,0 +1,178 @@
+package de.letsbuildacompiler.compiler;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+
+import de.letsbuildacompiler.parser.DemoLexer;
+import de.letsbuildacompiler.parser.DemoParser;
+import jasmin.ClassFile;
+
+public class Main {
+
+	private static Path tempDir;
+	public static List<String> programNames = new ArrayList<>();
+	public static List<String> compiledProgramNames = new ArrayList<>();
+	private static File parentDir;
+	private static File currentDir;
+	private static String currentProgramName;
+
+	/**
+	 * compiles and runs the code written in the code.demo file. creates a
+	 * temporary file in temps, which it deletes afterwards.
+	 * 
+	 * @param args
+	 * @throws Exception
+	 */
+	public static void main(String[] args) throws Exception {
+		System.out.println(run("sko/main"));
+	}
+
+	/**
+	 * compiles the code from the input stream to jasmin assembler code, or
+	 * "could not find any code :/", if there isn't any.
+	 * 
+	 * @param input
+	 * @return the compiled jasmin assembly
+	 */
+	public static String compile(ANTLRInputStream input) {
+		DemoLexer lexer = new DemoLexer(input);
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		DemoParser parser = new DemoParser(tokens);
+
+		ParseTree tree = parser.program();
+		FunctionList definedFunctions = FunctionDefinitionFinder.findFunctions(tree);
+		LinkedHashMap<String, TypeModel> types = FunctionDefinitionFinder.findTypes(tree);
+		Map<String, StorageModel> statics = FunctionDefinitionFinder.findStatics(tree, types);
+		String result = createJasminFile(new MyVisitor(definedFunctions, statics, types, currentProgramName, parentDir, currentDir).visit(tree));
+		System.out.println(result);
+		return result;
+	}
+
+	/**
+	 * adds the header to the rest of the instructions
+	 * 
+	 * @param instructions
+	 * @return the compiled jasmin assembly
+	 */
+	private static String createJasminFile(String instructions) {
+
+		return instructions;
+
+	}
+
+	/**
+	 * runs the compiled jasmin code with the Java Virtual Machine (JVM).
+	 * 
+	 * @param input
+	 * @return the output of the program
+	 * @throws Exception
+	 */
+	public static String run(String fileName) throws Exception {
+		createTempDir();
+		parentDir = tempDir.toFile();
+		programNames.add(fileName);
+		
+		while(!programNames.isEmpty()) {
+			
+			String lookingAtProgramFile = programNames.get(0);
+			compiledProgramNames.add(lookingAtProgramFile);
+			programNames.remove(0);
+			
+			ANTLRInputStream testClass = new ANTLRFileStream(lookingAtProgramFile + ".sko");
+			currentProgramName = lookingAtProgramFile.replace('/', '_');
+			currentDir = new File(parentDir.getPath(), currentProgramName + ".sko");
+			
+			String[] testResult = compile(testClass).split("\\*");
+
+			if (!testResult[0].equals("could not find any code :/")) {
+				ClassFile classFile = new ClassFile();
+				classFile.readJasmin(new StringReader(testResult[0]), "", false);
+				Path outputPath = tempDir.resolve(currentDir.getAbsolutePath().substring(0, currentDir.getAbsolutePath().length() - 4) + ".class");
+				classFile.write(Files.newOutputStream(outputPath));
+
+				ClassFile[] extraFiles = new ClassFile[testResult.length - 1];
+				for (int i = 0; i < testResult.length - 1; i++) {
+					ClassFile file = new ClassFile();
+					extraFiles[i] = file;
+					file.readJasmin(new StringReader(testResult[i + 1]), "", false);
+					Path newPath = tempDir.resolve(file.getClassName() + ".class");
+					file.write(Files.newOutputStream(newPath));
+				}
+			}
+		}
+
+		String result = runJavaClass(tempDir, fileName.replace("/", "_"));
+		deleteTempDir();
+		if (result == null) {
+			System.out.println("not working");
+			return "";
+		}
+		return result;
+	}
+
+	/**
+	 * creates the temporal folder for all .class files
+	 * 
+	 * @throws IOException
+	 */
+	public static void createTempDir() throws IOException {
+		tempDir = Files.createTempDirectory(programName.split("/")[programName.split("/").length -1]);
+		tempDir.toFile().deleteOnExit();
+	}
+
+	/**
+	 * deletes all class files and the folder
+	 */
+	public static void deleteTempDir() {
+		deleteRecursive(tempDir.toFile());
+		tempDir.toFile().delete();
+	}
+
+	private static void deleteRecursive(File file) {
+		if (file.isDirectory()) {
+			for (File child : file.listFiles()) {
+				deleteRecursive(child);
+			}
+		}
+		if (!file.delete()) {
+			throw new Error("something went wrong, could not delete file");
+		}
+	}
+
+	/**
+	 * runs the bytecode in the given .class file with the JVM.
+	 * 
+	 * @param dir
+	 * @param className
+	 * @return
+	 * @throws Exception
+	 */
+	private static String runJavaClass(Path dir, String className) throws Exception {
+		System.out.println( "java" +  "-cp" +  dir.toString() + className );
+		Process process = Runtime.getRuntime().exec(new String[] { "java", "-cp", dir.toString(), className });
+		try (InputStream in = process.getInputStream()) {
+			Scanner scanner = new Scanner(in);
+			if (scanner.useDelimiter("\\A").hasNext()) {
+				String result = scanner.useDelimiter("\\A").next();
+				scanner.close();
+				return result;
+			}
+			scanner.close();
+			return null;
+		}
+	}
+}

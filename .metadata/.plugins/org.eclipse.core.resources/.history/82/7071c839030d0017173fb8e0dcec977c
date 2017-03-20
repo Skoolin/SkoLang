@@ -1,0 +1,4 @@
+import:
+	std.math
+
+print(math.sqrt(16));

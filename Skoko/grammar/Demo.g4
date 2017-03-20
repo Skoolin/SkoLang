@@ -4,7 +4,7 @@ program: imports+=importList* programPart+ EOF;
 
 importList: 'import:' (importedFiles+=path)+ (',' (importedFiles+=path)*)* ;
 
-path: '.'? IDENTIFIER ('.' IDENTIFIER)* ;
+path: IDENTIFIER ('.' IDENTIFIER)* ;
 
 programPart: statement			#MainStatement
            | functionDefinition	#ProgPartFunctionDefinition

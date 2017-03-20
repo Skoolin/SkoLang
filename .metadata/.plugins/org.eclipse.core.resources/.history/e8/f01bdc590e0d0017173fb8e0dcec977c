@@ -1,0 +1,4 @@
+import:
+	sko.std.math
+
+print(int: math.sqrt(16));

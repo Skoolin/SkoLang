@@ -17,6 +17,6 @@ public class WrongDataTypeException extends CompileException {
 	
 	@Override
 	public String getMessage() {
-		return line + ":" +column + " wrong data type for <" + expression + "()>";
+		return line + ":" +column + " wrong data type for <" + expression + ">";
 	}
 }

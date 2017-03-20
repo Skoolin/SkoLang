@@ -1,0 +1,3 @@
+int custom = 40;
+int huhu = custom;
+print(huhu);
