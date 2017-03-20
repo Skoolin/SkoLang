@@ -1,0 +1,6 @@
+import:
+	sko.io.reader, sko.std.math
+
+print(int: math.sqrt(16));
+
+print(string: reader.readConsoleLine());

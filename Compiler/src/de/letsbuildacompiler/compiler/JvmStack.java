@@ -18,7 +18,9 @@ public class JvmStack {
 	 * @param type
 	 */
 	public void push(DataType type) {
-		typesOnStack.push(type);
+		if(type != DataType.VOID) {
+			typesOnStack.push(type);	
+		}
 		if(typesOnStack.size() > maxStackSize) {
 			maxStackSize++;
 		}

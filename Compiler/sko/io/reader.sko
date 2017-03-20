@@ -1,0 +1,5 @@
+string readConsole() {
+	invoke "static" "java/lang/System/console" () "Ljava/io/Console;" ;
+	invoke "virtual" "java/io/Console/readLine" () "S" ;
+	return tos;
+}

@@ -28,8 +28,10 @@ import de.letsbuildacompiler.parser.DemoParser.DivContext;
 import de.letsbuildacompiler.parser.DemoParser.FloatContext;
 import de.letsbuildacompiler.parser.DemoParser.FunctionCallContext;
 import de.letsbuildacompiler.parser.DemoParser.FunctionDefinitionContext;
+import de.letsbuildacompiler.parser.DemoParser.GetNativeContext;
 import de.letsbuildacompiler.parser.DemoParser.ImportFunctionCallContext;
 import de.letsbuildacompiler.parser.DemoParser.ImportListContext;
+import de.letsbuildacompiler.parser.DemoParser.InvokeNativeContext;
 import de.letsbuildacompiler.parser.DemoParser.LeftShiftContext;
 import de.letsbuildacompiler.parser.DemoParser.LoopContext;
 import de.letsbuildacompiler.parser.DemoParser.MainStatementContext;
@@ -41,10 +43,13 @@ import de.letsbuildacompiler.parser.DemoParser.PlusContext;
 import de.letsbuildacompiler.parser.DemoParser.PrintContext;
 import de.letsbuildacompiler.parser.DemoParser.PrintlnContext;
 import de.letsbuildacompiler.parser.DemoParser.ProgramContext;
+import de.letsbuildacompiler.parser.DemoParser.PushContext;
 import de.letsbuildacompiler.parser.DemoParser.RelationalContext;
 import de.letsbuildacompiler.parser.DemoParser.RightShiftContext;
 import de.letsbuildacompiler.parser.DemoParser.StringContext;
+import de.letsbuildacompiler.parser.DemoParser.StringGiverContext;
 import de.letsbuildacompiler.parser.DemoParser.SystemCallContext;
+import de.letsbuildacompiler.parser.DemoParser.TopOfStackContext;
 import de.letsbuildacompiler.parser.DemoParser.TypeArrayFieldContext;
 import de.letsbuildacompiler.parser.DemoParser.TypeDeclarationContext;
 import de.letsbuildacompiler.parser.DemoParser.TypeElementContext;
@@ -86,6 +91,69 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			this.typeHeader = "Type" + header;
 			this.parentDir = parentDir;
 		}
+	}
+	
+	@Override
+	public String visitInvokeNative(InvokeNativeContext ctx) {
+		String giveTypes = "";
+		for (int i = 0; i < ctx.giveTypes.size(); i++) {
+			giveTypes += visit(ctx.giveTypes.get(i));
+			jvmStack.pop();
+		}
+		DataType type = DataType.INT;
+		switch(ctx.returnType.getText().replaceAll("\"", "")) {
+		case "I":
+			break;
+		case "F":
+			type = (DataType.FLOAT);
+			break;
+		case "S":
+			type = (DataType.STRING);
+			break;
+		case "[I":
+			type = (DataType.IARRAY);
+			break;
+		case "[F":
+			type = (DataType.FARRAY);
+			break;
+		case "[S":
+			type = (DataType.SARRAY);
+			break;
+		case "V":
+			type = DataType.VOID;
+			break;
+		default:
+			type = DataType.OBJREF;
+			break;
+		}
+		jvmStack.push(type);
+		String returnString = type.getJvmType();
+		if(type == DataType.OBJREF) {
+			returnString = ctx.returnType.getText().replaceAll("\"", "");
+		}
+		return "invoke" + ctx.kind.getText().replaceAll("\"", "") + " " + ctx.name.getText().replaceAll("\"", "") + '(' + giveTypes + ')' + returnString + '\n';
+	}
+	
+	@Override
+	public String visitGetNative(GetNativeContext ctx) {
+		jvmStack.push(DataType.OBJREF);
+		return  "new " + ctx.type.getText().replaceAll("\"", "") + "\ndup\n" + "invokespecial " + ctx.type.getText().replaceAll("\"", "") + "/<init>()V\n";
+	}
+	
+	@Override
+	public String visitPush(PushContext ctx) {
+		return visitChildren(ctx);
+	}
+	
+	@Override
+	public String visitTopOfStack(TopOfStackContext ctx) {
+		jvmStack.pop();
+		return "";
+	}
+	
+	@Override
+	public String visitStringGiver(StringGiverContext ctx) {
+		return ctx.getText().replaceAll("\"", "");
 	}
 
 	@Override
@@ -622,7 +690,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		if (ctx.expr == null) {
 			return visitChildren(ctx);
 		} else {
-
+			String expressions = visit(ctx.expr);
 			if (main || statics.containsKey(ctx.varName.getText())) {
 				StorageModel model;
 				if (main) {
@@ -635,7 +703,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 				}
 				lookingAtStorageCommand = "putstatic " + header + "/n" + model.getStorageId();
 				lookingAtLoadCommand = "getstatic " + header + "/n" + model.getStorageId();
-				String instructions = visit(ctx.expr) + '\n';
+				String instructions = expressions + '\n';
 				String targetIndex = Integer.toString(model.getStorageId());
 				String result = "";
 
@@ -652,7 +720,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 					break;
 				case IARRAY:
 					if (ctx.index == null) {
-						result = visit(ctx.expr) + "\n" + "putstatic " + header + "/n"
+						result = expressions + "\n" + "putstatic " + header + "/n"
 								+ requireVariableIndex(ctx.varName) + " " + DataType.IARRAY.getJvmType();
 					} else {
 						String index = visit(ctx.index) + '\n';
@@ -665,7 +733,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 					break;
 				case FARRAY:
 					if (ctx.index == null) {
-						result = visit(ctx.expr) + "\n" + "putstatic " + header + "/n"
+						result = expressions + "\n" + "putstatic " + header + "/n"
 								+ requireVariableIndex(ctx.varName) + " " + DataType.FARRAY.getJvmType();
 					} else {
 						String index = visit(ctx.index) + '\n';
@@ -678,7 +746,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 					break;
 				case SARRAY:
 					if (ctx.index == null) {
-						result = visit(ctx.expr) + "\n" + "putstatic " + header + "/n"
+						result = expressions + "\n" + "putstatic " + header + "/n"
 								+ requireVariableIndex(ctx.varName) + " " + DataType.SARRAY.getJvmType();
 					} else {
 						String index = visit(ctx.index) + '\n';
@@ -696,7 +764,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 				return result;
 			} else {
 				StorageModel model = requireStorageModel(ctx.varName);
-				String instructions = visit(ctx.expr) + '\n';
+				String instructions = expressions + '\n';
 				String targetIndex = Integer.toString(model.getStorageId());
 				String result = "";
 

@@ -42,11 +42,15 @@
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.exceptions.CompileException"/>
 <fullyQualifiedTypeName name="org.antlr.v4.codegen.model.VisitorFile"/>
-<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.DataType"/>
 <fullyQualifiedTypeName name="java.util.LinkedHashSet"/>
 <fullyQualifiedTypeName name="java.util.Set"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.antlr.v4.runtime.ANTLRInputStream"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.exceptions.WrongDataTypeException"/>
+<fullyQualifiedTypeName name="java.lang.Math"/>
+<fullyQualifiedTypeName name="java.io.Console"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.lang.Void"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.DataType"/>
 </qualifiedTypeNameHistroy>

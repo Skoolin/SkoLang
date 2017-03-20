@@ -1,0 +1,10 @@
+import java.io.Console;
+
+public class ByteCodeTest {
+	
+	public static void main(String[] args) {
+		Console co = System.console();
+		String input = co.readLine();
+		System.out.println(input);
+	}
+}

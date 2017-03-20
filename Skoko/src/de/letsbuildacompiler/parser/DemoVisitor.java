@@ -62,6 +62,36 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBranch(DemoParser.BranchContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#javaNative}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJavaNative(DemoParser.JavaNativeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#invokeNative}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInvokeNative(DemoParser.InvokeNativeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#getNative}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGetNative(DemoParser.GetNativeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#push}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPush(DemoParser.PushContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#stringGiver}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringGiver(DemoParser.StringGiverContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link DemoParser#loop}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -192,6 +222,13 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAnd(DemoParser.AndContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TopOfStack}
+	 * labeled alternative in {@link DemoParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTopOfStack(DemoParser.TopOfStackContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Boolean}
 	 * labeled alternative in {@link DemoParser#expression}.

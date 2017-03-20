@@ -1,0 +1,9 @@
+string teste() {
+	string result;
+	invoke "static" "java/lang/System/console" () "Ljava/io/Console;" ;
+	invoke "virtual" "java/io/Console/readLine" () "S" ;
+	result = tos;	//top of stack
+	return result;
+}
+
+print(teste());

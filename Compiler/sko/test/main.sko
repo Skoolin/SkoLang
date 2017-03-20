@@ -1,8 +1,40 @@
 import:
-	sko.std.math
+	sko.io.reader, sko.std.math
 
-int test = int: math.sqrt(16);
-int erast = 15;
-int zweit = 16;
-int dreit = 17;
-print(test);
+int richtig = 0;
+int falsch = 0;
+int antwort = 0;
+
+print("It is math class today, please answer the following questions.");
+print("Let's start with addition:");
+
+print("What is the solution to 5 + 19?");
+antwort = 5 + 19;
+int null = evaluate();
+
+print("Now sqare roots. What is the sqare root of 16?");
+antwort = int: math.sqrt(16);
+null = evaluate();
+
+print("And the square root of 21025? :P");
+antwort = int: math.sqrt(21025);
+null = evaluate();
+
+print("your Result:");
+out(richtig);
+print(" right answer(s),");
+out(falsch);
+print(" mistake(s)");
+
+int evaluate() {
+	string input = string: reader.readConsole();
+	if(antwort == toInt(input)) {
+		richtig = richtig + 1;
+		print("very good!");
+	} else {
+		falsch = falsch + 1;
+		out("wrong, sadly :( the right solution is ");
+		print(antwort);
+	}
+	return 0;
+}

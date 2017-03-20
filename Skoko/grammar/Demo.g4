@@ -11,7 +11,8 @@ programPart: statement			#MainStatement
            | typeDeclaration	#ClassDeclaration
            ;
 
-statement: print ';'
+statement: javaNative ';'
+     	 | print ';'
 		 | println ';'
 		 | systemCall ';'
 		 | functionCall ';'
@@ -23,6 +24,19 @@ statement: print ';'
          
 branch: 'if' '(' condition=expression ')' onTrue=block ('else' onFalse=block)?
 	  ;
+
+javaNative: invokeNative
+          | getNative
+          | push
+          ;
+
+invokeNative: 'invoke' kind=STRING name=STRING '(' giveTypes+=stringGiver* ')' returnType=STRING ;
+
+getNative: 'new'  type=STRING ;
+
+push: 'pushToStack' expression;
+
+stringGiver: STRING ;
 
 loop: 'while' '(' condition=expression ')' body=block
 	;
@@ -49,7 +63,8 @@ expression: left=expression '/' right=expression #Div
           | constructorCall						 #Constructor
           | systemCall							 #SystemFunctions
           | functionCall 						 #FuncCallExpression
-          | importFunctionCall       #ImportFuncExpression
+          | importFunctionCall					 #ImportFuncExpression
+          | 'tos'								 #TopOfStack
           ;
 
 varDeclaration: type=object varName=IDENTIFIER
