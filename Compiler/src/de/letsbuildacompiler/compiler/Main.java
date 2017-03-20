@@ -38,7 +38,7 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println(run("sko/main"));
+		System.out.println(run("sko/test/main"));
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class Main {
 		LinkedHashMap<String, TypeModel> types = FunctionDefinitionFinder.findTypes(tree);
 		Map<String, StorageModel> statics = FunctionDefinitionFinder.findStatics(tree, types);
 		String result = createJasminFile(new MyVisitor(definedFunctions, statics, types, currentProgramName, parentDir).visit(tree));
-		System.out.println(result);
+//		System.out.println(result);
 		return result;
 	}
 

@@ -2,7 +2,6 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="org.antlr.v4.runtime.Token"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
-<fullyQualifiedTypeName name="java.util.Set"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="java.lang.NullPointerException"/>
 <fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
@@ -33,15 +32,21 @@
 <fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.TypeDeclarationContext"/>
 <fullyQualifiedTypeName name="java.awt.List"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.TypeModel"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.ExtraClassFile0"/>
 <fullyQualifiedTypeName name="java.nio.file.Path"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.CustomDataType"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.ImportFunctionCallContext"/>
-<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.DataType"/>
 <fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.exceptions.CompileException"/>
+<fullyQualifiedTypeName name="org.antlr.v4.codegen.model.VisitorFile"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.DataType"/>
+<fullyQualifiedTypeName name="java.util.LinkedHashSet"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.antlr.v4.runtime.ANTLRInputStream"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.exceptions.WrongDataTypeException"/>
 </qualifiedTypeNameHistroy>

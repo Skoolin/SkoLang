@@ -11,9 +11,9 @@ currently in a very early stage.
 
 ## SkoLang code example:
 
-```c++
+```groovy
 import:
-  std.math
+  sko.std.math
 
 int appendInts (int a, int b) {
   string first = toString(a);

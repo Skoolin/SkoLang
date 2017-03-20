@@ -1,0 +1,8 @@
+import:
+	sko.std.math
+
+int test = int: math.sqrt(16);
+int erast = 15;
+int zweit = 16;
+int dreit = 17;
+print(test);

@@ -1,3 +1,0 @@
-string[] test = new string[5];
-test[4] = "huhu";
-print(test[4]);

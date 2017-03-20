@@ -1,2 +1,0 @@
-string test = "test";
-print(test);

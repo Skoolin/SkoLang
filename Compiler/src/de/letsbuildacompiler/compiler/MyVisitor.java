@@ -1077,8 +1077,9 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		}
 		for (DataType paramType : params) {
 			result += paramType.getJvmType();
+			jvmStack.push(paramType);
 		}
-		result += ")" + type.getJvmType() + "\n" + ".limit locals 100\n" + ".limit stack 100\n"
+		result += ")" + type.getJvmType() + "\n" + ".limit locals " + variables.size() + "\n" + ".limit stack " + jvmStack.getMaxStackSize() + "\n"
 				+ (statementInstructions == null ? "" : statementInstructions + "\n") + visit(ctx.returnValue) + "\n"
 				+ returnType + "\n" + ".end method\n";
 		jvmStack.pop();
@@ -1088,6 +1089,7 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		return result;
 	}
 
+	//TODO make variable of custom type in type ...  and rewrite everything :=)
 	@Override
 	public String visitTypeDeclaration(TypeDeclarationContext ctx) {
 		String vars = "";
@@ -1149,8 +1151,8 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		}
 
 		return ".class public " + header + "\n" + ".super java/lang/Object\n" + "\n" + staticVars + '\n' + functions
-				+ "\n" + ".method public static main([Ljava/lang/String;)V\n" + ".limit stack 100\n"
-				+ ".limit locals 100\n" + "\n" + mainCode + "\n" + "return\n" + "\n" + ".end method" + extraClasses;
+				+ "\n" + ".method public static main([Ljava/lang/String;)V\n" + ".limit stack " + jvmStack.getMaxStackSize() + "\n"
+				+ ".limit locals " + 1 + "\n" + "\n" + mainCode + "\n" + "return\n" + "\n" + ".end method" + extraClasses;
 	}
 
 	private int requireVariableIndex(Token varNameToken) {
