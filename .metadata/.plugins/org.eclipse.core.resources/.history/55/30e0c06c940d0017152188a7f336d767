@@ -1,0 +1,6 @@
+public class ByteCodeTest {
+	static int time;
+	public static void main(String[] args) {
+		time = (int) (System.nanoTime() / 1000000);
+	}
+}

@@ -31,6 +31,7 @@ import de.letsbuildacompiler.parser.DemoParser.FunctionDefinitionContext;
 import de.letsbuildacompiler.parser.DemoParser.GetNativeContext;
 import de.letsbuildacompiler.parser.DemoParser.ImportFunctionCallContext;
 import de.letsbuildacompiler.parser.DemoParser.ImportListContext;
+import de.letsbuildacompiler.parser.DemoParser.InlineCommandContext;
 import de.letsbuildacompiler.parser.DemoParser.InvokeNativeContext;
 import de.letsbuildacompiler.parser.DemoParser.LeftShiftContext;
 import de.letsbuildacompiler.parser.DemoParser.LoopContext;
@@ -46,6 +47,7 @@ import de.letsbuildacompiler.parser.DemoParser.ProgramContext;
 import de.letsbuildacompiler.parser.DemoParser.PushContext;
 import de.letsbuildacompiler.parser.DemoParser.RelationalContext;
 import de.letsbuildacompiler.parser.DemoParser.RightShiftContext;
+import de.letsbuildacompiler.parser.DemoParser.SetTOSContext;
 import de.letsbuildacompiler.parser.DemoParser.StringContext;
 import de.letsbuildacompiler.parser.DemoParser.StringGiverContext;
 import de.letsbuildacompiler.parser.DemoParser.SystemCallContext;
@@ -135,6 +137,17 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	}
 	
 	@Override
+	public String visitInlineCommand(InlineCommandContext ctx) {
+		return ctx.text.getText().replaceAll("\"", "");
+	}
+	
+	@Override
+	public String visitSetTOS(SetTOSContext ctx) {
+		jvmStack.push(DataType.getType(ctx.type.getText().replaceAll("\"", "")));
+		return "";
+	}
+	
+	@Override
 	public String visitGetNative(GetNativeContext ctx) {
 		jvmStack.push(DataType.OBJREF);
 		return  "new " + ctx.type.getText().replaceAll("\"", "") + "\ndup\n" + "invokespecial " + ctx.type.getText().replaceAll("\"", "") + "/<init>()V\n";
@@ -147,7 +160,6 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 	
 	@Override
 	public String visitTopOfStack(TopOfStackContext ctx) {
-		jvmStack.pop();
 		return "";
 	}
 	

@@ -1,0 +1,4 @@
+import:
+	 sko.std.system
+
+print(int: system.time());

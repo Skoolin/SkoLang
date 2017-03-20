@@ -1,13 +1,9 @@
-import java.io.Console;
-
 public class ByteCodeTest {
-	
 	public static void main(String[] args) {
-		System.out.println(teste());
+		System.out.println(time());
 	}
 	
-	public static String teste() {
-		Console co = System.console();
-		return co.readLine();
+	public static int time() {
+		return (int) (System.nanoTime() / 1000000);
 	}
 }

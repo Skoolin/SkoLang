@@ -74,6 +74,12 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInvokeNative(DemoParser.InvokeNativeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#inlineCommand}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInlineCommand(DemoParser.InlineCommandContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link DemoParser#getNative}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -85,6 +91,12 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPush(DemoParser.PushContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#setTOS}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSetTOS(DemoParser.SetTOSContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DemoParser#stringGiver}.
 	 * @param ctx the parse tree

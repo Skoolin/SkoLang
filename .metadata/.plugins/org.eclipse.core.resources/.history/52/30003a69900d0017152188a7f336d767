@@ -1,0 +1,58 @@
+int sqrt(int number) {
+	int n = 1;
+	int n1 = next(n, number);
+
+	while (abs(n1 - n) > 2) {
+		n = n1;
+		n1 = next(n, number);
+	}
+	while(n1*n1 > number) {
+		n1 = n1 - 1;
+	}
+	return n1;
+}
+
+int next(int n, int i) {
+	int result = i / n;
+	result = result + n;
+	return result / 2;
+}
+
+int abs(int number) {
+	if (number < 0) {
+		number = 0 - number;
+	} else {
+
+	}
+	return number;
+}
+
+int sqare(int a) {
+	return a * a;
+}
+
+int max(int a, int b) {
+	int bigger = a;
+	if (b > a) {
+		bigger = b;
+	}
+	return bigger;
+}
+
+int min(int a, int b) {
+	int smaller = a;
+	if (b < a) {
+		smaller = b;
+	}
+	return smaller;
+}
+
+int mod(int a, int b) {
+	int div = a / b;
+	div = a - div * b;
+	if(div < 0) {
+		div = div + b;
+	}
+	print(div);
+	return div;
+}

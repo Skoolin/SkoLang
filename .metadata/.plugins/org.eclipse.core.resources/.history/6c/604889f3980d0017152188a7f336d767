@@ -1,0 +1,11 @@
+import:
+	sko.std.random, sko.std.system
+
+int null = int: random.initPrime(11);
+int i = 0;
+while(i < 5) {
+	print(int: random.intP());
+	i = i + 1;
+}
+
+print(int: system.time());

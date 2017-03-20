@@ -26,15 +26,21 @@ branch: 'if' '(' condition=expression ')' onTrue=block ('else' onFalse=block)?
 	  ;
 
 javaNative: invokeNative
+		  | inlineCommand
           | getNative
           | push
+          | setTOS
           ;
 
 invokeNative: 'invoke' kind=STRING name=STRING '(' giveTypes+=stringGiver* ')' returnType=STRING ;
 
+inlineCommand: 'inline' '{'text=STRING '}' ;
+
 getNative: 'new'  type=STRING ;
 
 push: 'pushToStack' expression;
+
+setTOS: 'setTOS' type=STRING;
 
 stringGiver: STRING ;
 

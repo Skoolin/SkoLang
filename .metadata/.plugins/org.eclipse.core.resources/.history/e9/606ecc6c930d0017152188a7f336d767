@@ -1,0 +1,8 @@
+import java.io.Console;
+
+public class ByteCodeTest {
+	int time;
+	public static void main(String[] args) {
+		time = (int) (System.nanoTime() / 1000000);
+	}
+}

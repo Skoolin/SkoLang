@@ -1,0 +1,9 @@
+import:
+	sko.std.random
+
+int null = random.initPrime(11);
+int i = 0;
+while(i < 5) {
+	print(int: random.intP());
+	i = i + 1;
+}

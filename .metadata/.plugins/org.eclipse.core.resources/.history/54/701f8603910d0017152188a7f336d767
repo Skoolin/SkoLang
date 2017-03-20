@@ -1,0 +1,19 @@
+import:
+	sko.std.math
+
+int nextIntP;
+int intMaxP;
+int intMulP;
+float nextFloat;
+
+int initPrime(int max) {
+	intMaxP = max;
+	intMulP = 7;
+	nextIntP = 1;
+	return intP();
+}
+
+int intP() {
+	nextIntP = int: math.mod(7 * nextIntP, intMaxP);
+	return nextIntP - 1;
+}
