@@ -11,7 +11,7 @@ currently in a very early stage.
 
 ## SkoLang code example:
 
-```c++
+```groovy
 import:
   std.math
 
