@@ -1,0 +1,24 @@
+import:
+	sko.std.math
+	sko.std.system
+
+int null;
+int nextIntP;
+int intMaxP;
+int intMulP;
+float nextFloat;
+
+// initializes the prime random to a given prime.
+int initPrime(int max) {
+	intMaxP = max;
+	intMulP = 2;
+	nextIntP = 1;
+	print(int: system.time());
+	return nextIntP();
+}
+
+// returns the next int between 0 and (the specified prime -2).
+int intP() {
+	nextIntP = int: math.mod(intMulP * nextIntP, intMaxP);
+	return nextIntP - 1;
+}

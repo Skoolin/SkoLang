@@ -40,4 +40,15 @@ public class StorageModel {
 		return type;
 	}
 
+	public boolean isArray() {
+		switch (this.type) {
+		case IARRAY:
+		case FARRAY:
+		case SARRAY:
+			return true;
+		default:
+			return false;
+		}
+	}
+
 }

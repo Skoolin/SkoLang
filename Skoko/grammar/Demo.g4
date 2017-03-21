@@ -1,8 +1,12 @@
 grammar Demo;	//0.1
 
-program: imports+=importList* programPart+ EOF;
+program: imports+=importList* noRun+=compilerSwitch* programPart+ EOF;
 
 importList: 'import:' (importedFiles+=path)+ (',' (importedFiles+=path)*)* ;
+
+compilerSwitch: '{' statementName=switchStatement '}' ;
+
+switchStatement: 'noMain' ;
 
 path: IDENTIFIER ('.' IDENTIFIER)* ;
 

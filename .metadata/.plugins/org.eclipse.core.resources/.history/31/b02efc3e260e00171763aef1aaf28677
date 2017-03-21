@@ -1,0 +1,49 @@
+import:
+	sko.io.reader;
+
+int null;
+
+int richtig = 0;
+int falsch = 0;
+
+int aufgabenzahl = 3;
+string[] aufgaben = new string[aufgabenzahl];
+int[] antworten  = new int[aufgabenzahl];
+
+aufgaben[0] = "What is the solution to 5 + 19?";
+antworten[0] = 24;
+
+aufgaben[1] = "Now sqare roots. What is the sqare root of 16?";
+antworten[1] = int: math.sqrt(16);
+
+aufgaben[2] = "And the square root of 21025? :P";
+antworten[2] = int: math.sqrt(21025);
+
+print("It is math class today, please answer the following questions.");
+print("Let's start with addition:");
+
+int i = 0;
+while (i < aufgabenzahl) {
+	print(aufgaben[i]);
+	null = evaluate(antworten[i]);
+	i = i+1;
+}
+
+print("your Result:");
+out(richtig);
+print(" right answer(s),");
+out(falsch);
+print(" mistake(s)");
+
+int evaluate(int antwort) {
+	string input = string: reader.readConsole();
+	if(antwort == toInt(input)) {
+		richtig = richtig + 1;
+		print("very good!");
+	} else {
+		falsch = falsch + 1;
+		out("wrong, sadly :( the right solution is ");
+		print(antwort);
+	}
+	return 0;
+}

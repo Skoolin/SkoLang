@@ -1,0 +1,18 @@
+{ noMain }
+// takes in the file address+name (string one) and the String to write (two) 
+inline {
+"
+.method public static write(Ljava/lang/String;Ljava/lang/String;)I
+.limit stack 4
+.limit locals 4
+aload 0
+invokestatic java/nio/file/Paths/get(Ljava/lang/String;)V
+aload 1
+invokevirtual java/lang/String/getBytes()[B
+invokestatic java/nio/file/Files/write(Ljava/nio/file/Path;[B)Ljava/nio/file/Path;
+pop
+iconst_0
+ireturn
+.end method
+"
+} ;

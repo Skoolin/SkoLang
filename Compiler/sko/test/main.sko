@@ -1,24 +1,28 @@
 import:
-	sko.io.reader, sko.std.math
+	sko.io.reader
+	sko.std.math, sko.std.random
+
+int null;
 
 int richtig = 0;
 int falsch = 0;
-int antwort = 0;
+
+int aufgabenzahl = 4;
+string[] aufgaben = new string[aufgabenzahl];
+int[] antworten  = new int[aufgabenzahl];
+
+null = init();
 
 print("It is math class today, please answer the following questions.");
 print("Let's start with addition:");
 
-print("What is the solution to 5 + 19?");
-antwort = 5 + 19;
-int null = evaluate();
-
-print("Now sqare roots. What is the sqare root of 16?");
-antwort = int: math.sqrt(16);
-null = evaluate();
-
-print("And the square root of 21025? :P");
-antwort = int: math.sqrt(21025);
-null = evaluate();
+int i = 0;
+while (i < aufgabenzahl) {
+	int ran = int: random.intP();
+	print(aufgaben[ran]);
+	null = evaluate(antworten[ran]);
+	i = i+1;
+}
 
 print("your Result:");
 out(richtig);
@@ -26,7 +30,7 @@ print(" right answer(s),");
 out(falsch);
 print(" mistake(s)");
 
-int evaluate() {
+int evaluate(int antwort) {
 	string input = string: reader.readConsole();
 	if(antwort == toInt(input)) {
 		richtig = richtig + 1;
@@ -36,5 +40,23 @@ int evaluate() {
 		out("wrong, sadly :( the right solution is ");
 		print(antwort);
 	}
-	return 0;
+	return false;
+}
+
+int init() {
+	null = int: random.initPrime(aufgabenzahl+1);
+
+	aufgaben[0] = "What is the solution to 5 + 19?";
+	antworten[0] = 24;
+
+	aufgaben[1] = "Now sqare roots. What is the sqare root of 16?";
+	antworten[1] = int: math.sqrt(16);
+
+	aufgaben[2] = "And the square root of 21025? :P";
+	antworten[2] = int: math.sqrt(21025);
+	
+	aufgaben[3] = "And the square root of 1? :P";
+	antworten[3] = int: math.sqrt(1);
+
+	return false;
 }

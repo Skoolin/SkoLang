@@ -1,0 +1,26 @@
+import java.io.FileNotFoundException;
+
+public class ByteCodeTest {
+	
+	public static java.util.Scanner sc;
+	
+	public static void main(String[] args) throws FileNotFoundException {
+		create("sko/test/main.sko");
+		while(hasNext() == 1) {
+			System.out.println(read());
+		}
+	}
+	
+	public static int create(String fileName) throws FileNotFoundException {
+		sc = new java.util.Scanner(new java.io.File(fileName));
+		return 0;
+	}
+	
+	public static String read() {
+		
+	}
+	
+	public static int hasNext() {
+		
+	}
+}

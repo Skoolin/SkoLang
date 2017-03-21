@@ -1,0 +1,7 @@
+import:
+	 sko.io.fileReader
+
+int null = int: fileReader.create("sko/io/fileReader.sko");
+while(int: fileReader.hasNext()) {
+	print(string: fileReader.read());
+}

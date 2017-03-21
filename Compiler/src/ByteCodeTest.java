@@ -1,9 +1,8 @@
+import java.io.IOException;
+
 public class ByteCodeTest {
-	public static void main(String[] args) {
-		System.out.println(time());
-	}
 	
-	public static int time() {
-		return (int) (System.nanoTime() / 1000000);
+	public static void main(String[] args) throws IOException {
+        java.nio.file.Files.write(java.nio.file.Paths.get("./duke.txt"), "huhu".getBytes());
 	}
 }

@@ -26,7 +26,7 @@ public enum DataType {
 	public String getJvmType() {
 		return jvmType;
 	}
-	
+
 	public String toString() {
 		return toString;
 	}

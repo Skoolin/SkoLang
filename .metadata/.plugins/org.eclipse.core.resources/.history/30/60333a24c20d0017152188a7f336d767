@@ -1,0 +1,4 @@
+import:
+	 sko.io.fileReader
+
+int null = int: fileReader.init();

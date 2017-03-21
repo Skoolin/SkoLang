@@ -23,6 +23,18 @@ public interface DemoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImportList(DemoParser.ImportListContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link DemoParser#compilerSwitch}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompilerSwitch(DemoParser.CompilerSwitchContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DemoParser#switchStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSwitchStatement(DemoParser.SwitchStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link DemoParser#path}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
