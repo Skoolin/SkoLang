@@ -38,7 +38,7 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println(run("sko/test/main"));
+		System.out.println(run("sko/test/ranTest"));
 	}
 
 	/**

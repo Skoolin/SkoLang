@@ -5,7 +5,7 @@ int time() {
 		"ldc2_w 1000000
 ldiv
 l2i"
-	} ;
+	}
 	setTOS "int";
 	setTOS "int";
 	return tos;

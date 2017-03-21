@@ -1,0 +1,13 @@
+int[] testArray = new int[3];
+
+testType first = new testType(testArray);
+
+first.typeArray[0] = 5;
+
+testArray = first.typeArray;
+
+print(testArray[0]);
+
+type testType {
+	int[] typeArray;
+}

@@ -2,7 +2,6 @@ import:
 	sko.std.math
 	sko.std.system
 
-int null;
 int nextIntP;
 int intMaxP;
 int intMulP;
@@ -16,10 +15,10 @@ int initPrime(int max) {
 	int i = 0;
 	int b = int: system.time();
 	while(i < b) {
-		null = intP();
+		intP();
 		i = i + 1;
 	}
-	null = intP();
+	intP();
 	return intP();
 }
 

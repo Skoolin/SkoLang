@@ -2,8 +2,6 @@ import:
 	sko.io.reader
 	sko.std.math, sko.std.random
 
-int null;
-
 int richtig = 0;
 int falsch = 0;
 
@@ -11,7 +9,7 @@ int aufgabenzahl = 4;
 string[] aufgaben = new string[aufgabenzahl];
 int[] antworten  = new int[aufgabenzahl];
 
-null = init();
+init();
 
 print("It is math class today, please answer the following questions.");
 print("Let's start with addition:");
@@ -20,15 +18,25 @@ int i = 0;
 while (i < aufgabenzahl) {
 	int ran = int: random.intP();
 	print(aufgaben[ran]);
-	null = evaluate(antworten[ran]);
+	evaluate(antworten[ran]);
 	i = i+1;
+}
+
+string resultTextAnswer = " right answer";
+string resultTextMistake = " mistake";
+if(richtig <> 1) {
+	resultTextAnswer = append(resultTextAnswer, "s");
+}
+resultTextAnswer = append(resultTextAnswer, ",");
+if(falsch <> 1) {
+	resultTextMistake = append(resultTextMistake, "s");
 }
 
 print("your Result:");
 out(richtig);
-print(" right answer(s),");
+print(resultTextAnswer);
 out(falsch);
-print(" mistake(s)");
+print(resultTextMistake);
 
 int evaluate(int antwort) {
 	string input = string: reader.readConsole();
@@ -44,7 +52,7 @@ int evaluate(int antwort) {
 }
 
 int init() {
-	null = int: random.initPrime(aufgabenzahl+1);
+	int: random.initPrime(aufgabenzahl+1);
 
 	aufgaben[0] = "What is the solution to 5 + 19?";
 	antworten[0] = 24;

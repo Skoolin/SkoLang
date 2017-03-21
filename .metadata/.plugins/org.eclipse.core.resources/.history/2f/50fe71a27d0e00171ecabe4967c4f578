@@ -1,0 +1,4 @@
+import:
+	 sko.io.fileWriter
+
+int null = int: fileWriter.write("./duke.txt", "huhu");

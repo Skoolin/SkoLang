@@ -1,0 +1,40 @@
+{ noMain }
+inline {
+"
+.field public static sc Ljava/util/Scanner;
+
+.method public static create(Ljava/lang/String;)I
+.limit stack 6
+.limit locals 1
+new java/util/Scanner
+dup
+new java/io/File
+dup
+aload 0
+invokespecial java/io/File/<init>(Ljava/lang/String;)V
+invokespecial java/util/Scanner/<init>(Ljava/io/File;)V
+putstatic sko_io_fileReader/sc Ljava/util/Scanner;
+iconst_0
+ireturn
+.end method
+
+.method public static read()Ljava/lang/String;
+.limit stack 3
+getstatic sko_io_fileReader/sc Ljava/util/Scanner;
+invokevirtual java/util/Scanner/nextLine()Ljava/lang/String;
+areturn
+.end method
+
+.method public static hasNext()I
+.limit stack 4
+getstatic sko_io_fileReader/sc Ljava/util/Scanner;
+invokevirtual java/util/Scanner/hasNext()Z
+ifeq          11
+iconst_1
+ireturn
+11: iconst_0
+ireturn
+.end method
+
+"
+} ;

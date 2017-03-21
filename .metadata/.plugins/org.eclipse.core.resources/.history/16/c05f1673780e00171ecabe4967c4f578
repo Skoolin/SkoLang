@@ -1,0 +1,12 @@
+// returns time in milliseconds
+int time() {
+	invoke "static" "java/lang/System/nanoTime" () "J" ;
+	inline {
+		"ldc2_w 1000000
+ldiv
+l2i"
+	} ;
+	setTOS "int";
+	setTOS "int";
+	return tos;
+}

@@ -26,6 +26,7 @@ import de.letsbuildacompiler.parser.DemoParser.ClassDeclarationContext;
 import de.letsbuildacompiler.parser.DemoParser.CompilerSwitchContext;
 import de.letsbuildacompiler.parser.DemoParser.ConstructorCallContext;
 import de.letsbuildacompiler.parser.DemoParser.DivContext;
+import de.letsbuildacompiler.parser.DemoParser.ExpressionContext;
 import de.letsbuildacompiler.parser.DemoParser.FloatContext;
 import de.letsbuildacompiler.parser.DemoParser.FunctionCallContext;
 import de.letsbuildacompiler.parser.DemoParser.FunctionDefinitionContext;
@@ -355,7 +356,6 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		return instructions;
 	}
 
-	// TODO make
 	@Override
 	public String visitTypeArrayField(TypeArrayFieldContext ctx) {
 		if (main || statics.containsKey(ctx.typeName.getText())) {
@@ -367,8 +367,28 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 					+ "getfield " + typeHeader + statics.get(ctx.typeName.getText()).getTypeAdress() + "/tn" + i + " "
 					+ type + "\n";
 			jvmStack.push(DataType.OBJREF);
+			result += visit(ctx.index) + '\n';
+			String scom = "aaload";
+			if(type.equals("[I")) {
+				scom = "iaload";
+			} else if(type.equals("[F")) {
+				scom = "faload";
+			}
+			result += scom + '\n';
 			jvmStack.pop();
-			jvmStack.push((new ArrayList<TypeModel>(types.values())).get(objectId).getVars().get(i));
+			jvmStack.pop();
+			DataType primitive = DataType.INT;
+			switch ((new ArrayList<TypeModel>(types.values())).get(objectId).getVars().get(i)) {
+			case FARRAY:
+				primitive = DataType.FLOAT;
+				break;
+			case STRING:
+				primitive = DataType.STRING;
+				break;
+			default:
+				break;
+			}
+			jvmStack.push(primitive);
 			return result;
 		} else {
 			int storageId = variables.get(ctx.typeName.getText()).getStorageId();
@@ -380,6 +400,8 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			result += "\n" + "getfield " + typeHeader + variables.get(ctx.typeName.getText()).getTypeAdress() + "/tn"
 					+ i + " " + type + "\n";
 			jvmStack.push(DataType.OBJREF);
+			result += visit(ctx.index);
+			jvmStack.pop();
 			jvmStack.pop();
 			jvmStack.push((new ArrayList<TypeModel>(types.values())).get(objectId).getVars().get(i));
 			return result;
@@ -664,44 +686,85 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		}
 	}
 
-	// TODO load into an Array in a Type as well
 	@Override
 	public String visitTypeFieldAssignment(TypeFieldAssignmentContext ctx) {
-		StorageModel model;
-		int objId;
-		if (main || statics.containsKey(ctx.varName.getText())) {
-			objId = statics.get(ctx.varName.getText()).getTypeAdress();
-			model = requireStaticStorageModel(ctx.varName);
-			lookingAtStorageCommand = "putstatic " + header + "/n" + model.getStorageId();
-			lookingAtLoadCommand = "getstatic " + header + "/n" + model.getStorageId();
+		if (ctx.index != null) {
+			int objId = 0;
+			StorageModel model;
+			if (main || statics.containsKey(ctx.varName.getText())) {
+				model = requireStaticStorageModel(ctx.varName);
+				objId = statics.get(ctx.varName.getText()).getTypeAdress();
+				lookingAtStorageCommand = "putstatic " + header + "/n" + model.getStorageId();
+				lookingAtLoadCommand = "getstatic " + header + "/n" + model.getStorageId();
+			} else {
+				model = requireStorageModel(ctx.varName);
+				objId = variables.get(ctx.varName.getText()).getTypeAdress();
+				lookingAtLoadCommand = "aload " + model.getStorageId();
+				lookingAtStorageCommand = "astore " + model.getStorageId();
+			}
+			int typeVarIndex = (new ArrayList<TypeModel>(types.values())).get(objId)
+					.getAddress(ctx.typeVarName.getText());
+			String getObj = lookingAtLoadCommand;
+			if (main) {
+				getObj += " L" + typeHeader + objId + ";";
+			}
+			getObj += '\n';
+			String get = "getfield " + typeHeader + objId + "/tn" + typeVarIndex + " "
+					+ ((new ArrayList<TypeModel>(types.values())).get(objId)).getVars().get(typeVarIndex).getJvmType()
+					+ "\n";
+			String expression = visit(ctx.expr) + '\n';
+			String indexExpression = visit(ctx.index) + '\n';
+			String put = "aastore\n";
+			if (((new ArrayList<TypeModel>(types.values())).get(objId)).getVars()
+					.get(typeVarIndex) == DataType.IARRAY) {
+				put = "iastore\n";
+			} else if (((new ArrayList<TypeModel>(types.values())).get(objId)).getVars()
+					.get(typeVarIndex) == DataType.FARRAY) {
+				put = "fastore\n";
+			}
+			jvmStack.pop();
+			jvmStack.pop();
+			jvmStack.pop();
+			return getObj + get + indexExpression + expression + put;
 		} else {
-			objId = variables.get(ctx.varName).getTypeAdress();
-			model = requireStorageModel(ctx.varName);
-			lookingAtLoadCommand = "aload " + model.getStorageId();
-			lookingAtStorageCommand = "astore " + model.getStorageId();
-			if (types.get(ctx.varName.getText()).getVars()
-					.get(types.get(ctx.varName.getText()).getAddress(ctx.typeVarName.getText())) == DataType.INT) {
-				lookingAtLoadCommand = "iload " + model.getStorageId();
-				lookingAtStorageCommand = "istore " + model.getStorageId();
+			StorageModel model;
+			int objId;
+			if (main || statics.containsKey(ctx.varName.getText())) {
+				objId = statics.get(ctx.varName.getText()).getTypeAdress();
+				model = requireStaticStorageModel(ctx.varName);
+				lookingAtStorageCommand = "putstatic " + "/n" + header + model.getStorageId();
+				lookingAtLoadCommand = "getstatic " + "/n" + header + model.getStorageId();
+			} else {
+				objId = variables.get(ctx.varName).getTypeAdress();
+				model = requireStorageModel(ctx.varName);
+				lookingAtLoadCommand = "aload " + model.getStorageId();
+				lookingAtStorageCommand = "astore " + model.getStorageId();
+				if (types.get(ctx.varName.getText()).getVars()
+						.get(types.get(ctx.varName.getText()).getAddress(ctx.typeVarName.getText())) == DataType.INT) {
+					lookingAtLoadCommand = "iload " + model.getStorageId();
+					lookingAtStorageCommand = "istore " + model.getStorageId();
+				}
+				if (types.get(ctx.varName.getText()).getVars().get(
+						types.get(ctx.varName.getText()).getAddress(ctx.typeVarName.getText())) == DataType.FLOAT) {
+					lookingAtLoadCommand = "fload " + model.getStorageId();
+					lookingAtStorageCommand = "fstore " + model.getStorageId();
+				}
 			}
-			if (types.get(ctx.varName.getText()).getVars()
-					.get(types.get(ctx.varName.getText()).getAddress(ctx.typeVarName.getText())) == DataType.FLOAT) {
-				lookingAtLoadCommand = "fload " + model.getStorageId();
-				lookingAtStorageCommand = "fstore " + model.getStorageId();
+			String get = lookingAtLoadCommand;
+			if (main) {
+				get += " L" + typeHeader + objId + ";";
 			}
+			get += '\n';
+			String expression = visit(ctx.expr) + '\n';
+			int typeVarIndex = (new ArrayList<TypeModel>(types.values())).get(objId)
+					.getAddress(ctx.typeVarName.getText());
+			String put = "putfield " + typeHeader + objId + "/tn" + typeVarIndex + " "
+					+ (new ArrayList<TypeModel>(types.values())).get(objId).getVars().get(typeVarIndex).getJvmType()
+					+ "\n";
+			String result = get + expression + put;
+			jvmStack.pop();
+			return result;
 		}
-		String get = lookingAtLoadCommand;
-		if (main) {
-			get += " L" + typeHeader + objId + ";";
-		}
-		get += '\n';
-		String expression = visit(ctx.expr) + '\n';
-		int typeVarIndex = (new ArrayList<TypeModel>(types.values())).get(objId).getAddress(ctx.typeVarName.getText());
-		String put = "putfield " + typeHeader + objId + "/tn" + typeVarIndex + " "
-				+ (new ArrayList<TypeModel>(types.values())).get(objId).getVars().get(typeVarIndex).getJvmType() + "\n";
-		String result = get + expression + put;
-		jvmStack.pop();
-		return result;
 	}
 
 	public String visitAssignment(AssignmentContext ctx) {
@@ -1051,7 +1114,12 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		for (int i = 0; i < numberOfParameters; i++) {
 			jvmStack.pop();
 		}
-		jvmStack.push(type);
+		if (ctx.parent instanceof ExpressionContext) {
+			jvmStack.push(type);
+
+		} else {
+			instructions += "\npop\n";
+		}
 		return instructions;
 	}
 
@@ -1080,7 +1148,11 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 			for (int i = 0; i < numberOfParameters; i++) {
 				jvmStack.pop();
 			}
-			jvmStack.push(type);
+			if (ctx.parent instanceof ExpressionContext) {
+				jvmStack.push(type);
+			} else {
+				instructions += "\npop\n";
+			}
 			return instructions;
 		}
 	}
@@ -1130,7 +1202,11 @@ public class MyVisitor extends DemoBaseVisitor<String> {
 		for (int i = 0; i < numberOfParameters; i++) {
 			jvmStack.pop();
 		}
-		jvmStack.push(type);
+		if (ctx.parent instanceof ExpressionContext) {
+			jvmStack.push(type);
+		} else {
+			instructions += "\npop\n";
+		}
 		return instructions;
 	}
 

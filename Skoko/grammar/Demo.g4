@@ -15,11 +15,12 @@ programPart: statement			#MainStatement
            | typeDeclaration	#ClassDeclaration
            ;
 
-statement: javaNative ';'
+statement: javaNative
      	 | print ';'
 		 | println ';'
 		 | systemCall ';'
 		 | functionCall ';'
+		 | importFunctionCall ';'
          | varDeclaration ';'
          | assignment ';'
          | branch
@@ -29,11 +30,11 @@ statement: javaNative ';'
 branch: 'if' '(' condition=expression ')' onTrue=block ('else' onFalse=block)?
 	  ;
 
-javaNative: invokeNative
+javaNative: invokeNative ';'
 		  | inlineCommand
-          | getNative
-          | push
-          | setTOS
+          | getNative ';'
+          | push ';'
+          | setTOS ';'
           ;
 
 invokeNative: 'invoke' kind=STRING name=STRING '(' giveTypes+=stringGiver* ')' returnType=STRING ;
@@ -71,7 +72,7 @@ expression: left=expression '/' right=expression #Div
           | txt=STRING 							 #String
           | varName=IDENTIFIER 					 #Variable
           | constructorCall						 #Constructor
-          | systemCall							 #SystemFunctions
+          | systemCall							 #SystemFuncExpression
           | functionCall 						 #FuncCallExpression
           | importFunctionCall					 #ImportFuncExpression
           | 'tos'								 #TopOfStack

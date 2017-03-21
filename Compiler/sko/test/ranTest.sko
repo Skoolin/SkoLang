@@ -1,4 +1,11 @@
-import:
-	 sko.io.fileWriter
+int[] testArray = new int[3];
 
-int null = int: fileWriter.write("./duke.txt", "huhu");
+testType first = new testType(testArray);
+
+first.typeArray[0] = 5;
+
+print(first.typeArray[0]);
+
+type testType {
+	int[] typeArray;
+}
