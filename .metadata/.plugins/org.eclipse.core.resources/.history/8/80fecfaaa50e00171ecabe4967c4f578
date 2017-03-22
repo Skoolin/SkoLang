@@ -1,0 +1,15 @@
+type test {
+	second huhu;
+}
+
+type second {
+	int i;
+}
+
+second point = new second(5);
+
+type test = new test(point);
+
+second result = test.huhu;
+
+print(result.i);

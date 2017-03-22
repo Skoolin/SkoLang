@@ -24,7 +24,6 @@
 <fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.MainStatementContext"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.FunctionDefinition"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.FunctionDefinitionFinder"/>
-<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.StorageModel"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.ProgramContext"/>
 <fullyQualifiedTypeName name="org.antlr.v4.runtime.tree.ParseTree"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.exceptions.VariableAlreadyDefinedException"/>
@@ -52,5 +51,13 @@
 <fullyQualifiedTypeName name="java.io.Console"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="java.lang.Void"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.FuncCallExpressionContext"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.SystemCallContext"/>
+<fullyQualifiedTypeName name="java.lang.Class"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.ImportFuncExpressionContext"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.parser.DemoParser.ExpressionContext"/>
+<fullyQualifiedTypeName name="java.lang.IllegalAccessError"/>
+<fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.StorageModel"/>
+<fullyQualifiedTypeName name="org.omg.PortableInterceptor.ObjectReferenceFactory"/>
 <fullyQualifiedTypeName name="de.letsbuildacompiler.compiler.DataType"/>
 </qualifiedTypeNameHistroy>

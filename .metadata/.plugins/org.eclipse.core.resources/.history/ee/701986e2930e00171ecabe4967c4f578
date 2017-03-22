@@ -1,0 +1,2 @@
+int[] testArray = new int[3];
+print(length(testArray));

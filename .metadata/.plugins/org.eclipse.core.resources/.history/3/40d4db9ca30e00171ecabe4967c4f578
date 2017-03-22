@@ -1,0 +1,7 @@
+type test {
+	int i;
+}
+
+test huhu = new test(1);
+
+print(huhu.i);

@@ -10,16 +10,16 @@ public class FunctionList {
 		definitions = new ArrayList<FunctionDefinition>();
 	}
 	
-	public boolean contains(String functionName, DataType[] params) {
+	public boolean contains(String functionName, StorageModel[] params) {
 		for(FunctionDefinition definition: definitions) {
-			DataType[] old = definition.getParams();
+			StorageModel[] old = definition.getParams();
 			if (old.length == params.length && functionName.equals(definition.getFunctionName())) {
 				if(old.length == 0 && params.length == 0) {
 					return true;
 				}
 				boolean match = true;
 				for (int i = 0; i < old.length; i++) {
-					if(old[i] != params[i]) {
+					if(old[i].getType() != params[i].getType()) {
 						match = false;
 						break;
 					}
@@ -36,7 +36,7 @@ public class FunctionList {
 		return definitions.size();
 	}
 	
-	public void add(String functionName, DataType[] params, DataType type) {
+	public void add(String functionName, StorageModel[] params, StorageModel type) {
 		definitions.add(new FunctionDefinition(functionName, params, type));
 	}
 	

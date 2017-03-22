@@ -1,0 +1,21 @@
+type test {
+	second huhu;
+}
+
+type second {
+	int i;
+}
+
+int null = brot();
+
+int brot() {
+second point = new second(5);
+
+test man = new test(point);
+
+second result = man.huhu;
+
+print(result.i);
+
+return 1;
+}

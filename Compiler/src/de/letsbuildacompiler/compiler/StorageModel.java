@@ -16,6 +16,11 @@ public class StorageModel {
 	 * the address of the type class file
 	 */
 	private int typeAddress;
+	private String programName;
+	
+	public StorageModel(DataType type) {
+		this.type = type;
+	}
 	
 	public StorageModel(int storageId, DataType type) {
 		this.storageId = storageId;
@@ -28,6 +33,17 @@ public class StorageModel {
 		this.typeAddress = typeAddress;
 	}
 	
+	public StorageModel(DataType type, int typeAdress) {
+		this.type = type;
+		this.typeAddress = typeAdress;
+	}
+	
+	public StorageModel(DataType type, int typeAddress, String programName) {
+		this.type = type;
+		this.typeAddress = typeAddress;
+		this.programName = programName;
+	}
+
 	public int getTypeAdress() {
 		return typeAddress;
 	}
@@ -36,6 +52,10 @@ public class StorageModel {
 		return storageId;
 	}
 
+	public String getProgramName() {
+		return programName;
+	}
+	
 	public DataType getType() {
 		return type;
 	}
@@ -49,6 +69,18 @@ public class StorageModel {
 		default:
 			return false;
 		}
+	}
+	
+	public String getJvmType() {
+		if(type != DataType.OBJREF) {
+			return type.getJvmType();
+		} else {
+			return "" + typeAddress;
+		}
+	}
+	
+	public static StorageModel getStorageModel(String type) {
+		return new StorageModel(DataType.getType(type));
 	}
 
 }

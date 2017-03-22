@@ -1,0 +1,19 @@
+type test {
+	second huhu;
+}
+
+type second {
+	int i;
+}
+
+init();
+
+int init() {
+second point = new second(5);
+
+test man = new test(point);
+
+second result = man.huhu;
+
+print(result.i);
+}

@@ -18,7 +18,7 @@ public class TypeModel {
 	/**
 	 * a list of all DataTypes in the right order
 	 */
-	private List<DataType> vars;
+	private List<StorageModel> vars;
 	
 	/**
 	 * a Map of DataType field names to their index in the List
@@ -31,7 +31,7 @@ public class TypeModel {
 	 * @param vars
 	 * @param varNames
 	 */
-	public TypeModel(int id, List<DataType> vars, Map<String, Integer> varNames) {
+	public TypeModel(int id, List<StorageModel> vars, Map<String, Integer> varNames) {
 		this.id = id;
 		this.vars = vars;
 		this.varNames = varNames;
@@ -47,7 +47,7 @@ public class TypeModel {
 	/**
 	 * @return list of DataType field types
 	 */
-	public List<DataType> getVars() {
+	public List<StorageModel> getVars() {
 		return vars;
 	}
 	

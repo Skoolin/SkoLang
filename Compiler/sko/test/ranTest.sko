@@ -1,11 +1,5 @@
-int[] testArray = new int[3];
-
-testType first = new testType(testArray);
-
-first.typeArray[0] = 5;
-
-print(first.typeArray[0]);
-
-type testType {
-	int[] typeArray;
+int square(int a) {
+	return a*a;
 }
+
+print(square(5));

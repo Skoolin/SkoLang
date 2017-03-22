@@ -1,0 +1,12 @@
+type test {
+	int i;
+}
+
+test huhu;
+huhu = new test(1);
+
+print(huhu.i);
+
+huhu = new test(2);
+
+print(huhu.i);

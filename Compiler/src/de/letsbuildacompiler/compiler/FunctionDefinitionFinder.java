@@ -27,21 +27,21 @@ public class FunctionDefinitionFinder {
 	 */
 	public static FunctionList findFunctions(ParseTree tree) {
 		final FunctionList definedFunctions = new FunctionList();
-		definedFunctions.add("toString", new DataType[] { DataType.INT }, DataType.STRING);
-		definedFunctions.add("toInt", new DataType[] { DataType.STRING }, DataType.INT);
-		definedFunctions.add("toInt", new DataType[] { DataType.FLOAT }, DataType.INT);
-		definedFunctions.add("toFloat", new DataType[] { DataType.INT }, DataType.FLOAT);
-		definedFunctions.add("toFloat", new DataType[] { DataType.STRING }, DataType.FLOAT);
-		definedFunctions.add("print", new DataType[] { DataType.INT }, DataType.VOID);
-		definedFunctions.add("out", new DataType[] { DataType.INT }, DataType.VOID);
-		definedFunctions.add("print", new DataType[] { DataType.FLOAT }, DataType.VOID);
-		definedFunctions.add("out", new DataType[] { DataType.FLOAT }, DataType.VOID);
-		definedFunctions.add("print", new DataType[] { DataType.STRING }, DataType.VOID);
-		definedFunctions.add("out", new DataType[] { DataType.STRING }, DataType.VOID);
-		definedFunctions.add("append", new DataType[] { DataType.STRING, DataType.STRING }, DataType.STRING);
-		definedFunctions.add("length", new DataType[] {DataType.IARRAY }, DataType.INT);
-		definedFunctions.add("length", new DataType[] {DataType.SARRAY }, DataType.INT);
-		definedFunctions.add("length", new DataType[] {DataType.FARRAY }, DataType.INT);
+		definedFunctions.add("toString", new StorageModel[] { new StorageModel(DataType.INT) }, new StorageModel(DataType.STRING));
+		definedFunctions.add("toInt", new StorageModel[] { new StorageModel(DataType.STRING) }, new StorageModel(DataType.INT));
+		definedFunctions.add("toInt", new StorageModel[] { new StorageModel(DataType.FLOAT) }, new StorageModel(DataType.INT));
+		definedFunctions.add("toFloat", new StorageModel[] { new StorageModel(DataType.INT) }, new StorageModel(DataType.FLOAT));
+		definedFunctions.add("toFloat", new StorageModel[] { new StorageModel(DataType.STRING) }, new StorageModel(DataType.FLOAT));
+		definedFunctions.add("print", new StorageModel[] { new StorageModel(DataType.INT) }, new StorageModel(DataType.VOID));
+		definedFunctions.add("out", new StorageModel[] { new StorageModel(DataType.INT) }, new StorageModel(DataType.VOID));
+		definedFunctions.add("print", new StorageModel[] { new StorageModel(DataType.FLOAT) }, new StorageModel(DataType.VOID));
+		definedFunctions.add("out", new StorageModel[] { new StorageModel(DataType.FLOAT) }, new StorageModel(DataType.VOID));
+		definedFunctions.add("print", new StorageModel[] { new StorageModel(DataType.STRING) }, new StorageModel(DataType.VOID));
+		definedFunctions.add("out", new StorageModel[] { new StorageModel(DataType.STRING) }, new StorageModel(DataType.VOID));
+		definedFunctions.add("append", new StorageModel[] { new StorageModel(DataType.STRING), new StorageModel(DataType.STRING) }, new StorageModel(DataType.STRING));
+		definedFunctions.add("length", new StorageModel[] { new StorageModel(DataType.IARRAY) }, new StorageModel(DataType.INT));
+		definedFunctions.add("length", new StorageModel[] { new StorageModel(DataType.FARRAY) }, new StorageModel(DataType.INT));
+		definedFunctions.add("length", new StorageModel[] { new StorageModel(DataType.SARRAY) }, new StorageModel(DataType.INT));
 		
 		new DemoBaseVisitor<Void>() {
 			@Override
@@ -49,7 +49,7 @@ public class FunctionDefinitionFinder {
 			public Void visitFunctionDefinition(FunctionDefinitionContext ctx) {
 				String functionName = ctx.funcName.getText();
 				int parameterCount = ctx.params.declarations.size();
-				DataType[] params = new DataType[parameterCount];
+				StorageModel[] params = new StorageModel[parameterCount];
 				for(int i = 0; i < parameterCount; i++) {
 					DataType paramType = DataType.INT;
 					switch (ctx.params.declarations.get(i).type.getText()) {
@@ -73,7 +73,7 @@ public class FunctionDefinitionFinder {
 					default:
 						break;
 					}
-					params[i] = paramType;
+					params[i] = new StorageModel(paramType);
 				}
 				DataType type = DataType.INT;
 				switch (ctx.type.getText()) {
@@ -100,7 +100,7 @@ public class FunctionDefinitionFinder {
 				if (definedFunctions.contains(functionName, params)) {
 					throw new FunctionAlreadyDefinedException(ctx.funcName);
 				}
-				definedFunctions.add(functionName, params, type);
+				definedFunctions.add(functionName, params, new StorageModel(type));
 				return null;
 			}
 		}.visit(tree);
@@ -113,6 +113,7 @@ public class FunctionDefinitionFinder {
 	 * @return list of all types
 	 */
 	public static LinkedHashMap<String, TypeModel> findTypes(ParseTree tree) {
+		final Map<String, Integer> typeIndices = new LinkedHashMap<>();
 		final LinkedHashMap<String, TypeModel> types = new LinkedHashMap<>();
 		
 		
@@ -133,7 +134,7 @@ public class FunctionDefinitionFinder {
 			
 			public Void visitTypeDeclaration(TypeDeclarationContext ctx) {
 				
-				List<DataType> consts = new ArrayList<>();
+				List<StorageModel> consts = new ArrayList<>();
 				Map<String, Integer> varNames = new HashMap<>();
 				
 				for (int i = 0; i < ctx.declarations.declarations.size(); i++) {
@@ -157,9 +158,79 @@ public class FunctionDefinitionFinder {
 						type = DataType.IARRAY;
 						break;
 					default:
+						type = DataType.OBJREF;
 						break;
 					}
-					consts.add(type);
+					StorageModel newStm;
+					if(type == DataType.OBJREF) {
+						newStm = new StorageModel(type, 1);
+					} else {
+						newStm = new StorageModel(type);
+					}
+					consts.add(newStm);
+					varNames.put(ctx.declarations.declarations.get(i).varName.getText(), i);
+				}
+				
+				typeIndices.put(ctx.typeName.getText(), storageId);
+				
+				
+				storageId++;
+				return null;
+			};
+			
+		}.visit(tree);
+		
+		new DemoBaseVisitor<Void>() {
+			int storageId = 0;
+			
+			@Override
+			public Void visitProgram(ProgramContext ctx) {
+				
+				for(ParseTree child: ctx.children) {
+					if(child instanceof ClassDeclarationContext) {
+						visit(child);
+					}
+				}
+				
+				return null;
+			};
+			
+			public Void visitTypeDeclaration(TypeDeclarationContext ctx) {
+				
+				List<StorageModel> consts = new ArrayList<>();
+				Map<String, Integer> varNames = new HashMap<>();
+				
+				for (int i = 0; i < ctx.declarations.declarations.size(); i++) {
+					DataType type = DataType.INT;
+					switch(ctx.declarations.declarations.get(i).type.getText()) {
+					case "int":
+						break;
+					case "float":
+						type = DataType.FLOAT;
+						break;
+					case "string":
+						type = DataType.STRING;
+						break;
+					case "string[]":
+						type = DataType.SARRAY;
+						break;
+					case "float[]":
+						type = DataType.FARRAY;
+						break;
+					case "int[]":
+						type = DataType.IARRAY;
+						break;
+					default:
+						type = DataType.OBJREF;
+						break;
+					}
+					StorageModel newStm;
+					if(type == DataType.OBJREF) {
+						newStm = new StorageModel(type, typeIndices.get(ctx.declarations.declarations.get(i).type.getText()));
+					} else {
+						newStm = new StorageModel(type);
+					}
+					consts.add(newStm);
 					varNames.put(ctx.declarations.declarations.get(i).varName.getText(), i);
 				}
 				
